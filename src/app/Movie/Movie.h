@@ -12,6 +12,7 @@ public:
     const std::string &getSynopsis() const;
     const std::unordered_set<std::string> &getTags() const;
     Movie(const std::string &title, const std::string &synopsis, const std::string &tags);
+
 };
 
 

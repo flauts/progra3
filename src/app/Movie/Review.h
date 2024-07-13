@@ -14,9 +14,15 @@ private:
     std::string username;
     std::vector<std::string> comment;
     float score;
-    int reviewId;
+    int review_id;
 public:
-
+    Review() = default;
+    Review(std::string, std::vector<std::string>, float);
+    void getInfoBlock();
+    std::string getUsername() {return username;};
+    std::vector<std::string> getComment() {return comment;};
+    float getScore() {return score;};
+    int getReviewId() {return review_id;};
 };
 
 
