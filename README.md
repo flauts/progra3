@@ -24,3 +24,8 @@ El objetivo del proyecto final es implementar una plataforma de *streaming*. Un 
 * Grabar su presentación y colocar el link en su repositorio. El video debe tener un máximo de 15 minutos. Aquel grupo que sobrepase el tiempo tendrá una penalización en su nota.
 * Cumplir con la rúbrica del proyecto.
 
+## Convenciones de escritura
+* Utilizamos snake_case para las variables.
+* Utilizamos cammelCase para las funciones y metodos de clases.
+* NUNCA hacemos uso de PascalCase.
+

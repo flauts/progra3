@@ -2,8 +2,6 @@
 using namespace std;
 
 int main(){
-
-
     while(1){
         int input;
         cin>>input;
@@ -13,6 +11,5 @@ int main(){
             default:
                 cout<<"a";
         }
-
     }
 }
