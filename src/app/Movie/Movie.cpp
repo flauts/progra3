@@ -1,6 +1,5 @@
 
 #include "Movie.h"
-#include <sstream>
 
 
 const std::string &Movie::getSynopsis() const {
@@ -24,4 +23,5 @@ Movie::Movie(const std::string &title, const std::string &synopsis, const std::s
     while (getline(ss, t, delimiter)) {
         this->tags.insert(t);
     };
+    this->title = synopsis;
 }
