@@ -15,10 +15,8 @@ SearchEngineBuilder &SearchEngineBuilder::Query(const std::string &query) {
 
 SearchEngineBuilder &SearchEngineBuilder::Tags(const std::string &tags) {
     std::stringstream ss(tags);
-
     std::string t;
     char delimiter = ',';
-
     while (getline(ss, t, delimiter)) {
         searchEngine_->tags.insert(t);
     }
