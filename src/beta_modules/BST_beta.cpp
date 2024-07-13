@@ -6,6 +6,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <utility>
 #include <vector>
 
 // Define a structure for the BST node
@@ -15,7 +16,7 @@ struct BSTNode {
     BSTNode* left;
     BSTNode* right;
 
-    BSTNode(const std::string& k, const std::vector<std::string>& d) : key(k), data(d), left(nullptr), right(nullptr) {}
+    BSTNode(std::string  k, const std::vector<std::string>& d) : key(std::move(k)), data(d), left(nullptr), right(nullptr) {}
 };
 
 // Function to insert a new node into the BST
