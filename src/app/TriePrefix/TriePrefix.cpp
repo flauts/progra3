@@ -36,7 +36,6 @@ void insert_key(TrieNode* root, string& key)
             // node.
             currentNode->childNode[c - 'a'] = newNode;
         }
-
         // Now, move the current node pointer to the newly
         // created node.
         currentNode = currentNode->childNode[c - 'a'];
@@ -46,6 +45,8 @@ void insert_key(TrieNode* root, string& key)
     // pointer this implies that there is a string ending at
     // currentNode.
     currentNode->wordEnd = true;
+
+
 }
 
 bool search_key(TrieNode* root, string& key)

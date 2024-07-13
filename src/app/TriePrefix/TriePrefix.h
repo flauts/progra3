@@ -8,16 +8,12 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-struct TrieNode {
-
+struct TrieNode{
     // pointer array for child nodes of each node
     TrieNode* childNode[26];
-
     // Used for indicating ending of string
     bool wordEnd;
-
     TrieNode();
-
 };
 
 void insert_key(TrieNode* root, string& key);
