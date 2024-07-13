@@ -29,3 +29,12 @@ El objetivo del proyecto final es implementar una plataforma de *streaming*. Un 
 * Utilizamos cammelCase para las funciones y metodos de clases.
 * NUNCA hacemos uso de PascalCase.
 
+## Descripcion de directorios
+
+* src -> Source directory containing our main program components.
+  * src\app -> Directory contains the main class components management, as well as entities.
+    * src\app\Movie -> Contains everything regarding movies and its associated components (included sub-entities)
+    * src\app\SearchEngine -> Contains everything related to search modules, technologies and scripts.
+    * src\app\TriePrefix -> Contains anything to the tree search model. Includes search modules, technologies and scripts.
+  * src\beta_modules -> Any script that stands as suggestion or experimentation goes here.
+  * src\tools -> All classes and scripts dedicated to being complementary for the project go here.
