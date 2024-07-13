@@ -2,5 +2,17 @@
 using namespace std;
 
 int main(){
-    cout<<"hola";
+
+
+    while(1){
+        int input;
+        cin>>input;
+        switch(input){
+            case 1:
+            cout<<input<<"\n";
+            default:
+                cout<<"a";
+        }
+
+    }
 }
