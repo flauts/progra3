@@ -55,6 +55,7 @@ int main() {
     }
 
     auto* title_root = new TrieNode();
+    auto* tags_root = new TrieNode();
 
 
     unordered_set<Movie*> movies;
@@ -72,8 +73,9 @@ int main() {
             auto* new_movie = new Movie(id,title, synopsis, tags);
             vector<std::string> good_tags = new_movie->getTags();
             movies.insert(new_movie);
-            title_root->insert_movies_synopsis(synopsis,new_movie);
-            title_root->insert_movies_synopsis(title,new_movie);
+            title_root->insert_movies_data(synopsis, new_movie);
+            title_root->insert_movies_data(title, new_movie);
+            tags_root->insert_movies_data(tags, new_movie);
         }
     }
 // Antes del bucle, abre un archivo de texto en modo de escritura
@@ -91,6 +93,26 @@ int main() {
 // Después del bucle, cierra el archivo
     outFile.close();
 
+
+    // Antes del bucle, abre un archivo de texto en modo de escritura
+    std::ofstream outFile2("/home/jorughen/Documents/progra3/resultadosTag.txt");
+    if (!outFile2.is_open()) {
+        std::cerr << "Error opening file for writing." << std::endl;
+        return 1; // O manejar el error como prefieras
+    }
+
+// Dentro del bucle, escribe en el archivo
+    for (auto movie : tags_root->search_movies_by_key("Horror Action")) {
+        outFile2 << *movie << std::endl;
+    }
+
+// Después del bucle, cierra el archivo
+    outFile2.close();
+
+
+
+
+
     SearchEngineBuilder searchEngineBuilder;
 
     SearchEngine* searchEngine = searchEngineBuilder.Query("whimsical").Tags("comedy, drama").build();
@@ -101,6 +123,9 @@ int main() {
     }
 
     delete title_root;
+
+
+
 
     return 0;
 }
