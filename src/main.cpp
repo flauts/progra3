@@ -1,17 +1,6 @@
-#include <iostream>
-#include "app/Movie/Movie.h"
-#include "app/TriePrefix/TrieNode.h"
+#include "interface/Menu/Menu.h"
 
-using namespace std;
-
-int main(){
-    Movie a = Movie("title", "synopsis", {"Horror", "Action"});
-    Movie b = Movie("title", "synopsis", {"Horror", "Suspense"});
-
-    TrieNode* root = new TrieNode();
-
-
-
-
-
+int main() {
+    Menu::getInstance().run();
+    return 0;
 }
