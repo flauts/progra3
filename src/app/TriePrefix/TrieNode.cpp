@@ -1,37 +1,28 @@
-//
-// Created by jorughen on 7/13/24.
-//
-
 #include "TrieNode.h"
 
 TrieNode::TrieNode() {
-    // constructor
-    // initialize the wordEnd variable with false
-    // initialize every index of childNode array with
-    // NULL
     wordEnd = false;
-
     for (int i = 0; i < 26; i++) {
         childNode[i] = nullptr;
     }
 }
 
-void insert_key(TrieNode* root, string& key)
+void TrieNode::setMovies(const vector<Movie *> &movies) {
+    TrieNode::movies = movies;
+}
+
+void TrieNode::insert_key(string& key)
 {
-    // Initialize the currentNode pointer
-    // with the root node
-    TrieNode* currentNode = root;
+    TrieNode* currentNode = this;
 
     // Iterate across the length of the string
     for (int i = 0; i < key.length(); i++){
         char c = key[i];
-        // Check if the node exist for the current
-        // character in the Trie.
         if (isdigit(c)){
-            c -= '0'+27;
+            c = c - '0' + 27;
         }
         else{
-            c -= 'a';
+            c = c - 'a';
         }
 
         if (currentNode->childNode[c] == nullptr) {
@@ -53,26 +44,26 @@ void insert_key(TrieNode* root, string& key)
     // pointer this implies that there is a string ending at
     // currentNode.
     currentNode->wordEnd = true;
-
-
-<<<<<<< HEAD:src/app/TriePrefix/TriePrefix.cpp
-=======
-
->>>>>>> 70d202b473c650195556eb692756d0cd2f192e6b:src/app/TriePrefix/TrieNode.cpp
 }
 
-bool search_key(TrieNode* root, string& key)
+bool TrieNode::search_key(string& key)
 {
     // Initialize the currentNode pointer
     // with the root node
-    TrieNode* currentNode = root;
+    TrieNode* currentNode = this;
 
     // Iterate across the length of the string
-    for (auto c : key) {
+    for (auto c : key){
+        if (isdigit(c)){
+            c -= '0'+27;
+        }
+        else{
+            c -= 'a';
+        }
 
         // Check if the node exist for the current
         // character in the Trie.
-        if (currentNode->childNode[c - 'a'] == nullptr) {
+        if (currentNode->childNode[c] == nullptr) {
 
             // Given word does not exist in Trie
             return false;
@@ -80,7 +71,7 @@ bool search_key(TrieNode* root, string& key)
 
         // Move the currentNode pointer to the already
         // existing node for current character.
-        currentNode = currentNode->childNode[c - 'a'];
+        currentNode = currentNode->childNode[c];
     }
 
     return currentNode->wordEnd;
