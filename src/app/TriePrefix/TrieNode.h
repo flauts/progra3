@@ -8,7 +8,7 @@
 #include <queue>
 #include <string>
 
-class TrieNodeVector; // Forward declaration
+class TrieNodeVector;
 
 struct TrieNode {
     TrieNode* childNode[37];

@@ -85,7 +85,7 @@ std::vector<std::string>Utils::parseCSVLine(std::ifstream& file) {
 
 
 
-void serializeTrie(const TrieNode *root, const std::string &filename) {
+void Utils::serializeTrie(const TrieNode *root, const std::string &filename) {
     std::ofstream out(filename, std::ios::binary);
     if (out.is_open()) {
         root->serialize(out);
@@ -96,7 +96,7 @@ void serializeTrie(const TrieNode *root, const std::string &filename) {
 }
 
 
-TrieNode *deserializeTrie(const std::string &filename) {
+TrieNode* Utils::deserializeTrie(const std::string &filename) {
     std::ifstream in(filename, std::ios::binary);
     if (in.is_open()) {
         TrieNode* root = TrieNode::deserialize(in);

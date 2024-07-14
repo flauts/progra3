@@ -1,5 +1,7 @@
 #include "TrieNode.h"
 #include "../../tools/Utils.h"
+#include <omp.h>
+
 
 
 TrieNode::TrieNode() {
@@ -45,14 +47,21 @@ TrieNode::TrieNode() {
 //
 
 
-std::unordered_set<Movie*>TrieNode::search_movies_by_key(const std::string& key) { // Modificación aquí
-    TrieNode* currentNode = this;
+std::unordered_set<Movie*> TrieNode::search_movies_by_key(const std::string& key) {
     std::vector<std::string> words = Utils::splitString(key);
-    std::unordered_set<Movie*> movies;
-    for (const auto& e: words) {
-        currentNode=this;
-        for (auto c: e) {
-            int index;
+    std::unordered_set<Movie*> result;
+
+    if (words.empty()) {
+        return result; // Si no hay palabras, devuelve un conjunto vacío
+    }
+
+    bool firstWord = true;
+
+    for (const auto& e : words) {
+        TrieNode* currentNode = this;
+        std::unordered_set<Movie*> currentMovies;
+
+        for (char c : e) {
             if (!isalnum(c)) { continue; }
             int index;
             if (isdigit(c)) {
@@ -83,7 +92,7 @@ std::unordered_set<Movie*>TrieNode::search_movies_by_key(const std::string& key)
             firstWord = false;
         } else {
             // Intersección de conjuntos
-            unordered_set<Movie*> intersection;
+            std::unordered_set<Movie*> intersection;
             for (auto& mov : result) {
                 if (currentMovies.find(mov) != currentMovies.end()) {
                     intersection.insert(mov);
@@ -102,8 +111,10 @@ std::unordered_set<Movie*>TrieNode::search_movies_by_key(const std::string& key)
 
 void TrieNode::insert_movies_data(const std::string& key, Movie* mov) {
     TrieNode* currentNode = this;
-        std::vector<std::string> words = Utils::splitString(key);
-            for (auto e: words) {
+    std::vector<std::string> words = Utils::splitString(key);
+    #pragma omp parallel
+    {
+    for (auto e: words) {
                 currentNode=this;
                 for(auto c: e) {
                 int index;
@@ -130,6 +141,7 @@ void TrieNode::insert_movies_data(const std::string& key, Movie* mov) {
             }
         }
     }
+}
 
 TrieNodeVector::TrieNodeVector(const std::unordered_set<Movie *> &vectorPelis) : vectorPelis(vectorPelis) {}
 
