@@ -6,8 +6,8 @@
 using namespace std;
 
 int main(){
-    Movie a = Movie("title", "synopsis", {"horror", "action"});
-    Movie b = Movie("title", "synopsis", {"horror", "suspense"});
+    Movie a = Movie("BADIGAMER", "synopsis", {"horror", "action"});
+    Movie b = Movie("LASaventurasDelPequenhoPAca", "synopsis", {"horror", "suspense"});
 
     auto* root = new TrieNode();
 
@@ -15,13 +15,17 @@ int main(){
         insert_key(root, it, &a);
     }
 
+    for (const auto & it : b.getTags()) {
+        insert_key(root, it, &b);
+    }
+
 
     cout << "Hello, World!" << endl;
-//    vector<Movie*> movies = search_key(root, (string &) "Horror");
-//    for (auto & movie : movies) {
-//        cout << movie->getTitle() << endl;
-//
-//    }
+    vector<Movie*> movies = search_key(root,  "suspense");
+    for (auto & movie : movies) {
+        cout << movie->getTitle() << endl;
+
+    }
 
 
 
