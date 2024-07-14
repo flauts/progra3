@@ -15,17 +15,27 @@ class Menu {
 private:
     static Menu instance;
 
+    static bool firstTime; // Declarar como estática
+
     std::vector<unique_ptr<Command>> commands;
 
     Menu();
     ~Menu();
 
+    static void drawOptionBox(int y, int x, const char* text, bool highlight);
+
+    static void drawAsciiArt();
+
+    static void drawBorderSnail();
+
+    static void animateBackground();
+
+    static void drawMenu(int highlight);
+
+    void processInput(int &choice) const;
+
 public:
     static Menu& getInstance();
-
-    static void drawMenu();
-
-    void processInput(int choice) const;
 
     [[noreturn]] void run() const;
 };
