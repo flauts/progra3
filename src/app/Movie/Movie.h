@@ -3,19 +3,39 @@
 
 #include <string>
 #include <vector>
+#include <unordered_set>
 
 class Movie {
 private:
     std::string title;
     std::string synopsis;
-    std::vector<std::string> tags;
+    std::unordered_set<std::string> tags;
 
 public:
-    Movie(std::string  title, std::string  synopsis, const std::vector<std::string>& tags);
+    Movie() = default;
+    Movie(std::string  title, std::string  synopsis, const std::string& tags);
 
-    std::vector<std::string> getTags() const;
+    std::unordered_set<std::string> getTags() const;
 
-    std::string getTitle() const;
+    const std::string &getSynopsis() const;
+
+    const std::string &getTitle() const;
+
+    bool operator==(Movie& m);
+
+    ~Movie();
 };
+
+namespace std {
+    template <>
+    struct hash<Movie> {
+        std::size_t operator()(const Movie& movie) const {
+            return hash<std::string>()(movie.getTitle());
+        }
+    };
+}
+
+
+
 
 #endif // MOVIE_H
