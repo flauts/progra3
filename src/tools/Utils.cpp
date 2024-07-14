@@ -10,6 +10,7 @@ std::unordered_set<std::string> Utils::loadStopwords(const std::string &filepath
         return stopwords;
     }
 
+
 std::vector<std::string> Utils::formatTags(const std::string &tags) {
     std::vector<std::string> tag;
     std::string t;

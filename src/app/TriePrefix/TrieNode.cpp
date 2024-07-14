@@ -44,10 +44,6 @@ std::vector<std::pair<Movie*,int>>  TrieNode::search_movies_by_key(const std::st
             if (movieNode) {
                 for (auto& mov : movieNode->vectorPelis) {
                     myMoviesMap[mov]++;
-                    if(myMoviesMap[mov] == 2){
-                        std::cout << *mov << std::endl;
-                        std::cout<<"LEON ES GAYYYYYYYYYYYYYYYYyy";
-                    }
 
                 }
             }
@@ -76,11 +72,19 @@ std::vector<std::pair<Movie*,int>>  TrieNode::search_movies_by_key(const std::st
     return ordered_pairs;
 }
 
+//stopwords
+auto stopwords2 = Utils::loadStopwords("/home/jorughen/Documents/progra3/stopwords.txt");
+//stopwords
 
 void TrieNode::insert_movies_data(const std::string& key, Movie* mov) {
     TrieNode* currentNode = this;
     std::vector<std::string> words = Utils::splitString(key);
     for (auto e: words) {
+        std::transform(e.begin(), e.end(), e.begin(),
+                       [](char c){ if (isdigit(c)) {return c;}else{return char(tolower(c));}});
+        if (stopwords2.find(e) != stopwords2.end()) {
+            continue;
+        }
         currentNode=this;
         for(auto c: e) {
             int index;
@@ -88,7 +92,7 @@ void TrieNode::insert_movies_data(const std::string& key, Movie* mov) {
             if (isdigit(c)) {
                 index = c - '0' + 26;
             } else {
-                c = tolower(c);
+
                 index = c - 'a';
             }
             if (currentNode->childNode[index] == nullptr) {

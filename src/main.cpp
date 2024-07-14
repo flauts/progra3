@@ -52,7 +52,7 @@ int main() {
     }
 
 // Dentro del bucle, escribe en el archivo
-    for (auto movie : Trie->search_movies_by_key("Walter White")) {
+    for (auto movie : Trie->search_movies_by_key("is")) {
         outFile << *movie.first << std::endl;
     }
 

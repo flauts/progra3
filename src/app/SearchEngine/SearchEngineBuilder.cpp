@@ -7,7 +7,7 @@
 #include "../../tools/Utils.h"
 
 
-auto stopwords = Utils::loadStopwords("C:\\Users\\flauta\\progra3\\proyecto\\progra3\\src\\stopwords.txt");
+auto stopwords = Utils::loadStopwords("/home/jorughen/Documents/progra3/stopwords.txt");
 
 SearchEngineBuilder &SearchEngineBuilder::Query(const std::string &query) {
     std::stringstream ss(query);
