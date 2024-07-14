@@ -13,7 +13,8 @@ struct TrieNode {
     TrieNode();
     virtual ~TrieNode() = default; // Destructor virtual
 
-
+    void insert_movies_key(const std::vector<std::string>& key, Movie* mov); // Modificación aquí
+    unordered_set<Movie*> search_movies_by_key(const std::string& key); // También modificamos aquí
 };
 
 struct TrieNodeVector : public TrieNode {
@@ -21,7 +22,5 @@ struct TrieNodeVector : public TrieNode {
     TrieNodeVector() = default;
 };
 
-void insert_movies_tag(TrieNode* root, const std::vector<std::string>& tags, Movie* mov); // Modificación aquí
-unordered_set<Movie*> search_movies_by_tag(TrieNode* root, const std::string& key); // También modificamos aquí
 
 #endif // PROGRA3_TRIENODE_H

@@ -55,6 +55,8 @@ int main() {
     }
 
     auto* title_root = new TrieNode();
+
+
     unordered_set<Movie*> movies;
 
     while (database.peek() != EOF) {
@@ -66,10 +68,12 @@ int main() {
             string tags = fields[3];
 
             string cleanedTitle = cleanString(title);
-            auto* new_movie = new Movie(title, synopsis, tags);
+            string cleanedSynopsis = cleanString(synopsis);
+            auto* new_movie = new Movie(id,title, synopsis, tags);
             vector<std::string> good_tags = new_movie->getTags();
+
             movies.insert(new_movie);
-            insert_movies_tag(title_root, good_tags, new_movie);
+            title_root->insert_movies_key(cleanedTitle, new_movie);
         }
     }
     for (auto movie : search_movies_by_tag(title_root, "whimsical")) {

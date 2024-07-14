@@ -8,13 +8,14 @@
 
 class Movie {
 private:
+    std::string id;
     std::string title;
     std::string synopsis;
     std::vector<std::string> tags;
 
 public:
     Movie() = default;
-    Movie(std::string  title, std::string  synopsis, const std::string& tags);
+    Movie(std::string id,std::string  title, std::string  synopsis, const std::string& tags);
 
     std::vector<std::string> getTags() const;
 

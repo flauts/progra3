@@ -1,5 +1,4 @@
 #include "TrieNode.h"
-#include "../Movie/Movie.h"
 
 TrieNode::TrieNode() {
     wordEnd = false;
@@ -9,10 +8,11 @@ TrieNode::TrieNode() {
     }
 }
 
+
 //cada tag es todo junto sin espacios
-void insert_movies_tag(TrieNode* root, const std::vector<std::string>& tags, Movie* mov) { // Modificación aquí
-    TrieNode* currentNode = root;
-    for(auto e: tags) {
+void TrieNode::insert_movies_key(const std::vector<std::string>& key, Movie* mov) { // Modificación aquí
+    TrieNode* currentNode = this;
+    for(auto e: key) {
         for (auto c: e) {
             int index;
             if(!isalnum(c)){continue;}
@@ -44,10 +44,8 @@ void insert_movies_tag(TrieNode* root, const std::vector<std::string>& tags, Mov
 }
 
 
-
-
-unordered_set<Movie*> search_movies_by_tag(TrieNode* root, const std::string& key) { // Modificación aquí
-    TrieNode* currentNode = root;
+unordered_set<Movie*>TrieNode::search_movies_by_key(const std::string& key) { // Modificación aquí
+    TrieNode* currentNode = this;
 
     for (auto c : key) {
         int index;
@@ -73,3 +71,4 @@ unordered_set<Movie*> search_movies_by_tag(TrieNode* root, const std::string& ke
 
     return {}; // Devuelve un vector vacío si no hay películas asociadas con la clave
 }
+
