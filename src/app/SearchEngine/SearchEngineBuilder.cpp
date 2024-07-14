@@ -4,19 +4,10 @@
 #include <fstream>
 #include <unordered_set>
 #include <algorithm>
+#include "../../tools/Utils.h"
 
-// Function to load stopwords from a file into a set
-std::unordered_set<std::string> loadStopwords(const std::string& filepath) {
-    std::unordered_set<std::string> stopwords;
-    std::ifstream file(filepath);
-    std::string word;
-    while (file >> word) {
-        stopwords.insert(word);
-    }
-    return stopwords;
-}
 
-std::unordered_set<std::string> stopwords = loadStopwords("C:\\Users\\flauta\\progra3\\proyecto\\progra3\\src\\stopwords.txt");
+auto stopwords = Utils::loadStopwords("C:\\Users\\flauta\\progra3\\proyecto\\progra3\\src\\stopwords.txt");
 
 SearchEngineBuilder &SearchEngineBuilder::Query(const std::string &query) {
     std::stringstream ss(query);

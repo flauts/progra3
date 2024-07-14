@@ -1,5 +1,6 @@
 #include "TrieNode.h"
-#include "../Movie/Movie.h"
+#include "../../tools/Utils.h"
+
 
 TrieNode::TrieNode() {
     wordEnd = false;
@@ -9,10 +10,14 @@ TrieNode::TrieNode() {
     }
 }
 
+
 //cada tag es todo junto sin espacios
-void insert_movies_tag(TrieNode* root, const std::vector<std::string>& tags, Movie* mov) { // Modificación aquí
-    TrieNode* currentNode = root;
-    for(auto e: tags) {
+//paralelismo con el insert
+
+
+void TrieNode::insert_movies_key(const std::vector<std::string>& key, Movie* mov) { // Modificación aquí
+    TrieNode* currentNode = this;
+    for(auto e: key) {
         for (auto c: e) {
             int index;
             if(!isalnum(c)){continue;}
@@ -21,8 +26,6 @@ void insert_movies_tag(TrieNode* root, const std::vector<std::string>& tags, Mov
             } else {
                 index = c - 'a';
             }
-
-
             if (currentNode->childNode[index] == nullptr) {
                 TrieNode *newNode = new TrieNode();
                 currentNode->childNode[index] = newNode;
@@ -44,10 +47,8 @@ void insert_movies_tag(TrieNode* root, const std::vector<std::string>& tags, Mov
 }
 
 
-
-
-unordered_set<Movie*> search_movies_by_tag(TrieNode* root, const std::string& key) { // Modificación aquí
-    TrieNode* currentNode = root;
+unordered_set<Movie*>TrieNode::search_movies_by_key(const std::string& key) { // Modificación aquí
+    TrieNode* currentNode = this;
 
     for (auto c : key) {
         int index;
@@ -73,3 +74,34 @@ unordered_set<Movie*> search_movies_by_tag(TrieNode* root, const std::string& ke
 
     return {}; // Devuelve un vector vacío si no hay películas asociadas con la clave
 }
+
+void TrieNode::insert_movies_synopsis(const std::string& key, Movie* mov) {
+    TrieNode* currentNode = this;
+        vector<string> words = Utils::splitString(key);
+            for (auto e: words) {
+                currentNode=this;
+                for(auto c: e) {
+                int index;
+                if (!isalnum(c)) { continue; }
+                if (isdigit(c)) {
+                    index = c - '0' + 26;
+                } else {
+                    c = tolower(c);
+                    index = c - 'a';
+                }
+                if (currentNode->childNode[index] == nullptr) {
+                    TrieNode *newNode = new TrieNode();
+                    currentNode->childNode[index] = newNode;
+                }
+                currentNode = currentNode->childNode[index];
+            }
+            if (currentNode->childNode[36] == nullptr) {
+                TrieNodeVector *newNode = new TrieNodeVector();
+                currentNode->childNode[36] = newNode;
+            }
+            TrieNodeVector* movieNode = dynamic_cast<TrieNodeVector*>(currentNode->childNode[36]);
+            if (movieNode) {
+                movieNode->vectorPelis.insert(mov);
+            }
+        }
+    }

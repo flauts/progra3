@@ -48,13 +48,15 @@ std::vector<std::string> parseCSVLine(std::ifstream& file) {
 }
 
 int main() {
-    ifstream database("C:\\Users\\flauta\\progra3\\proyecto\\progra3\\datos.csv");
+    ifstream database("/home/jorughen/Documents/progra3/datos.csv");
     if(!database.is_open()) {
         std::cerr << "Error opening file: " << std::strerror(errno) << std::endl;
         return 1;
     }
 
     auto* title_root = new TrieNode();
+
+
     unordered_set<Movie*> movies;
 
     while (database.peek() != EOF) {
@@ -66,13 +68,14 @@ int main() {
             string tags = fields[3];
 
             string cleanedTitle = cleanString(title);
-            auto* new_movie = new Movie(title, synopsis, tags);
+            string cleanedSynopsis = cleanString(synopsis);
+            auto* new_movie = new Movie(id,title, synopsis, tags);
             vector<std::string> good_tags = new_movie->getTags();
             movies.insert(new_movie);
-            insert_movies_tag(title_root, good_tags, new_movie);
+            title_root->insert_movies_synopsis(synopsis,new_movie);
         }
     }
-    for (auto movie : search_movies_by_tag(title_root, "whimsical")) {
+    for (auto movie : title_root->search_movies_by_key("tiger")) {
         cout << *movie << endl;
     }
 
