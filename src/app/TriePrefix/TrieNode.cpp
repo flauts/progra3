@@ -2,9 +2,6 @@
 #include "TrieNode.h"
 #include "../../tools/Utils.h"
 
-
-
-
 TrieNode::TrieNode() {
     wordEnd = false;
     movieNode = nullptr;
@@ -13,56 +10,18 @@ TrieNode::TrieNode() {
     }
 }
 
-//cada tag es todo junto sin espacios
-//paralelismo con el insert
-
-//
-//void TrieNode::insert_movies_tag(const std::vector<std::string>& key, Movie* mov) { // Modificación aquí
-//    TrieNode* currentNode = this;
-//    for(auto e: key) {
-//        for (auto c: e) {
-//            int index;
-//            if(!isalnum(c)){continue;}
-//            if (isdigit(c)) {
-//                index = c - '0' + 26;
-//            } else {
-//                index = c - 'a';
-//            }
-//            if (currentNode->childNode[index] == nullptr) {
-//                TrieNode *newNode = new TrieNode();
-//                currentNode->childNode[index] = newNode;
-//            }
-//            currentNode = currentNode->childNode[index];
-//        }
-//
-//        if (currentNode->childNode[36] == nullptr) {
-//            TrieNodeVector *newNode = new TrieNodeVector();
-//            currentNode->childNode[36] = newNode;
-//        }
-//
-//        TrieNodeVector* movieNode = dynamic_cast<TrieNodeVector*>(currentNode->childNode[36]);
-//        if (movieNode) {
-//            movieNode->vectorPelis.insert(mov);
-//        }
-//    }
-//
-
-
 std::unordered_set<Movie*> TrieNode::search_movies_by_key(const std::string& key) {
     std::vector<std::string> words = Utils::splitString(key);
-    std::unordered_set<Movie*> result;
+    std::vector<std::unordered_set<Movie*>> results(words.size());
 
     if (words.empty()) {
-        return result; // Si no hay palabras, devuelve un conjunto vacío
+        return {};
     }
 
-    bool firstWord = true;
-
-    for (const auto& e : words) {
+#pragma omp parallel for
+    for (int i = 0; i < words.size(); ++i) {
         TrieNode* currentNode = this;
-        std::unordered_set<Movie*> currentMovies;
-
-        for (char c : e) {
+        for (char c : words[i]) {
             if (!isalnum(c)) { continue; }
             int index;
             if (isdigit(c)) {
@@ -73,7 +32,7 @@ std::unordered_set<Movie*> TrieNode::search_movies_by_key(const std::string& key
             }
 
             if (currentNode->childNode[index] == nullptr) {
-                return {}; // Devuelve un conjunto vacío si una de las palabras no existe
+                break;
             }
 
             currentNode = currentNode->childNode[index];
@@ -82,60 +41,56 @@ std::unordered_set<Movie*> TrieNode::search_movies_by_key(const std::string& key
         if (currentNode->childNode[36] != nullptr) {
             TrieNodeVector* movieNode = dynamic_cast<TrieNodeVector*>(currentNode->childNode[36]);
             if (movieNode) {
-                for (auto mov : movieNode->vectorPelis) {
-                    currentMovies.insert(mov);
-                }
-            }
-        }
-
-        if (firstWord) {
-            result = currentMovies;
-            firstWord = false;
-        } else {
-            // Intersección de conjuntos
-            std::unordered_set<Movie*> intersection;
-            for (auto& mov : result) {
-                if (currentMovies.find(mov) != currentMovies.end()) {
-                    intersection.insert(mov);
-                }
-            }
-            result = intersection;
-
-            if (result.empty()) {
-                return result; // Si la intersección es vacía, no hay películas que coincidan con todas las palabras
+                results[i] = movieNode->vectorPelis;
             }
         }
     }
 
-    return result; // Devuelve el conjunto de películas que coinciden con todas las palabras
+    // Compute intersection
+    std::unordered_set<Movie*> finalResult = results[0];
+    for (int i = 1; i < results.size(); ++i) {
+        std::unordered_set<Movie*> intersection;
+        for (auto& mov : finalResult) {
+            if (results[i].find(mov) != results[i].end()) {
+                intersection.insert(mov);
+            }
+        }
+        finalResult = intersection;
+    }
+
+    return finalResult;
 }
 
 void TrieNode::insert_movies_data(const std::string& key, Movie* mov) {
-    omp_set_num_threads(4);
-    TrieNode* currentNode = this;
     std::vector<std::string> words = Utils::splitString(key);
-    #pragma omp parallel for
-    {
-    for (auto e: words) {
-                currentNode=this;
-                for(auto c: e) {
-                int index;
-                if (!isalnum(c)) { continue; }
-                if (isdigit(c)) {
-                    index = c - '0' + 26;
-                } else {
-                    c = tolower(c);
-                    index = c - 'a';
-                }
-                if (currentNode->childNode[index] == nullptr) {
-                    auto *newNode = new TrieNode();
-                    currentNode->childNode[index] = newNode;
-                }
-                currentNode = currentNode->childNode[index];
+#pragma omp parallel for
+    for (int i = 0; i < words.size(); ++i) {
+        TrieNode* currentNode = this;
+        for (char c : words[i]) {
+            int index;
+            if (!isalnum(c)) { continue; }
+            if (isdigit(c)) {
+                index = c - '0' + 26;
+            } else {
+                c = tolower(c);
+                index = c - 'a';
             }
+
+            TrieNode* nextNode;
+#pragma omp critical
+            {
+                if (currentNode->childNode[index] == nullptr) {
+                    currentNode->childNode[index] = new TrieNode();
+                }
+                nextNode = currentNode->childNode[index];
+            }
+            currentNode = nextNode;
+        }
+
+#pragma omp critical
+        {
             if (currentNode->childNode[36] == nullptr) {
-                auto *newNode = new TrieNodeVector();
-                currentNode->childNode[36] = newNode;
+                currentNode->childNode[36] = new TrieNodeVector();
             }
             auto* movieNode = dynamic_cast<TrieNodeVector*>(currentNode->childNode[36]);
             if (movieNode) {
