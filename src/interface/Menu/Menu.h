@@ -5,40 +5,29 @@
 #ifndef MENU_H
 #define MENU_H
 
-#include <ncurses.h>
 #include <vector>
 #include <memory>
-#include "../Command/Command.h"
+#include "Command.h"
+
+using std::unique_ptr, std::make_unique;
 
 class Menu {
-public:
-    static Menu& getInstance() {
-        static Menu instance;
-        return instance;
-    }
-
-    [[noreturn]] void run();
-
-    Menu(const Menu&) = delete;
-    Menu& operator=(const Menu&) = delete;
-
 private:
-    Menu() {
-        initscr();
-        noecho();
-        cbreak();
-        keypad(stdscr, TRUE);
-    }
+    static Menu instance;
 
-    ~Menu() {
-        endwin();
-    }
+    std::vector<unique_ptr<Command>> commands;
 
+    Menu();
+    ~Menu();
+
+public:
+    static Menu& getInstance();
 
     static void drawMenu();
-    void processInput(int ch) const;
 
-    std::vector<std::unique_ptr<Command>> commands{};
+    void processInput(int choice) const;
+
+    [[noreturn]] void run() const;
 };
 
 #endif // MENU_H

@@ -3,16 +3,26 @@
 //
 
 #include "Menu.h"
+#include <ncurses.h>
 
-[[noreturn]] void Menu::run() {
-    commands.push_back(std::make_unique<Option1Command>());
-    commands.push_back(std::make_unique<Option2Command>());
+Menu Menu::instance;
 
-    while (true) {
-        drawMenu();
-        const int choice = getch();
-        processInput(choice);
-    }
+Menu::Menu() {
+    initscr();
+    noecho();
+    cbreak();
+    keypad(stdscr, TRUE);
+
+    commands.push_back(make_unique<Option1Command>());
+    commands.push_back(make_unique<Option2Command>());
+}
+
+Menu::~Menu() {
+    endwin();
+}
+
+Menu& Menu::getInstance() {
+    return instance;
 }
 
 void Menu::drawMenu() {
@@ -24,8 +34,8 @@ void Menu::drawMenu() {
     refresh();
 }
 
-void Menu::processInput(const int ch) const {
-    switch (ch) {
+void Menu::processInput(const int choice) const {
+    switch (choice) {
         case '1':
             commands[0]->execute();
         break;
@@ -33,11 +43,20 @@ void Menu::processInput(const int ch) const {
             commands[1]->execute();
         break;
         case '3':
-            exit(0);
+            endwin();
+        exit(0);
         default:
             mvprintw(4, 0, "Opcion no valida");
         refresh();
         getch();
         break;
+    }
+}
+
+[[noreturn]] void Menu::run() const {
+    while (true) {
+        drawMenu();
+        const int choice = getch();
+        processInput(choice);
     }
 }
