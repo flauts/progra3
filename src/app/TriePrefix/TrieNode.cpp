@@ -9,15 +9,21 @@ TrieNode::TrieNode() {
     }
 }
 
-std::unordered_set<Movie*> TrieNode::search_movies_by_key(const std::string& key) {
+std::vector<std::pair<Movie*,int>>  TrieNode::search_movies_by_key(const std::string& key, TrieNode* currentPastNode) {
     std::vector<std::string> words = Utils::splitString(key);
-    std::vector<std::unordered_set<Movie*>> results(words.size());
+    std::map<Movie*,int> myMoviesMap;
+
     if (words.empty()) {
         return {};
     }
-#pragma omp parallel for
+
     for (int i = 0; i < words.size(); ++i) {
         TrieNode* currentNode = this;
+        //PARA LOS RECOMENDADOS VECINOS
+        if (currentPastNode != nullptr){
+            currentNode = currentPastNode;
+        }
+
         for (char c : words[i]) {
             if (!isalnum(c)) { continue; }
             int index;
@@ -36,30 +42,47 @@ std::unordered_set<Movie*> TrieNode::search_movies_by_key(const std::string& key
         if (currentNode->childNode[36] != nullptr) {
             TrieNodeVector* movieNode = dynamic_cast<TrieNodeVector*>(currentNode->childNode[36]);
             if (movieNode) {
-                results[i] = movieNode->vectorPelis;
-            }
-        }
-    }
-    std::unordered_set<Movie*> finalResult = results[0];
-    for (int i = 1; i < results.size(); ++i) {
-        std::unordered_set<Movie*> intersection;
-        for (auto& mov : finalResult) {
-            if (results[i].find(mov) != results[i].end()) {
-                intersection.insert(mov);
-            }
-        }
-        finalResult = intersection;
-    }
+                for (auto& mov : movieNode->vectorPelis) {
+                    myMoviesMap[mov]++;
+                    if(myMoviesMap[mov] == 2){
+                        std::cout << *mov << std::endl;
+                        std::cout<<"LEON ES GAYYYYYYYYYYYYYYYYyy";
+                    }
 
-    return finalResult;
+                }
+            }
+        }
+    }
+//    std::unordered_set<Movie*> finalResult = results[0];
+//    for (int i = 1; i < results.size(); ++i) {
+//        std::unordered_set<Movie*> intersection;
+//        for (auto& mov : finalResult) {
+//            if (results[i].find(mov) != results[i].end()) {
+//                intersection.insert(mov);
+//            }
+//        }
+//        finalResult = intersection;
+//    }
+
+    std::vector<std::pair<Movie*,int>> ordered_pairs;
+    ordered_pairs.reserve(myMoviesMap.size());
+    for (auto& it : myMoviesMap) {
+        ordered_pairs.emplace_back(it);
+    }
+    sort(ordered_pairs.begin(), ordered_pairs.end(), [](auto& a, auto& b) {
+        return a.second > b.second;
+    });
+
+    return ordered_pairs;
 }
 
+
 void TrieNode::insert_movies_data(const std::string& key, Movie* mov) {
+    TrieNode* currentNode = this;
     std::vector<std::string> words = Utils::splitString(key);
-#pragma omp parallel for
-    for (int i = 0; i < words.size(); ++i) {
-        TrieNode* currentNode = this;
-        for (char c : words[i]) {
+    for (auto e: words) {
+        currentNode=this;
+        for(auto c: e) {
             int index;
             if (!isalnum(c)) { continue; }
             if (isdigit(c)) {
@@ -68,27 +91,19 @@ void TrieNode::insert_movies_data(const std::string& key, Movie* mov) {
                 c = tolower(c);
                 index = c - 'a';
             }
-
-            TrieNode* nextNode;
-#pragma omp critical
-            {
-                if (currentNode->childNode[index] == nullptr) {
-                    currentNode->childNode[index] = new TrieNode();
-                }
-                nextNode = currentNode->childNode[index];
+            if (currentNode->childNode[index] == nullptr) {
+                auto *newNode = new TrieNode();
+                currentNode->childNode[index] = newNode;
             }
-            currentNode = nextNode;
+            currentNode = currentNode->childNode[index];
         }
-
-#pragma omp critical
-        {
-            if (currentNode->childNode[36] == nullptr) {
-                currentNode->childNode[36] = new TrieNodeVector();
-            }
-            auto* movieNode = dynamic_cast<TrieNodeVector*>(currentNode->childNode[36]);
-            if (movieNode) {
-                movieNode->vectorPelis.insert(mov);
-            }
+        if (currentNode->childNode[36] == nullptr) {
+            auto *newNode = new TrieNodeVector();
+            currentNode->childNode[36] = newNode;
+        }
+        auto* movieNode = dynamic_cast<TrieNodeVector*>(currentNode->childNode[36]);
+        if (movieNode) {
+            movieNode->vectorPelis.insert(mov);
         }
     }
 }

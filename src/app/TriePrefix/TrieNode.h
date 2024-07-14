@@ -21,7 +21,7 @@ struct TrieNode {
     TrieNode();
     virtual ~TrieNode() = default;
 
-    std::unordered_set<Movie*> search_movies_by_key(const std::string& key);
+    std::vector<std::pair<Movie*,int>> search_movies_by_key(const std::string& key, TrieNode* currentPastNode = nullptr);
     void insert_movies_data(const std::string &key, Movie *mov);
 
     // Serialization method
