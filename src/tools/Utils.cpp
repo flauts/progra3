@@ -45,4 +45,66 @@ std::vector<std::string> Utils::splitString(const std::string &str) {
         return tokens;
     }
 
+std::string Utils::cleanString(const std::string& str) {
+    std::string cleaned;
+    for (char c : str) {
+        if (isalnum(c)) {
+            cleaned += tolower(c);
+        }
+    }
+    return cleaned;
+}
 
+std::vector<std::string>Utils::parseCSVLine(std::ifstream& file) {
+    std::vector<std::string> result;
+    std::string field;
+    bool inQuotes = false;
+    char ch;
+
+    while (file.get(ch)) {
+        if (ch == '\"') {
+            inQuotes = !inQuotes;
+        } else if (ch == ',' && !inQuotes) {
+            result.push_back(field);
+            field.clear();
+        } else if (ch == '\n' && !inQuotes) {
+            if (!field.empty()) {
+                result.push_back(field);
+            }
+            return result;
+        } else {
+            field += ch;
+        }
+    }
+
+    if (!field.empty()) {
+        result.push_back(field);
+    }
+
+    return result;
+}
+
+
+
+void serializeTrie(const TrieNode *root, const std::string &filename) {
+    std::ofstream out(filename, std::ios::binary);
+    if (out.is_open()) {
+        root->serialize(out);
+        out.close();
+    } else {
+        std::cerr << "Unable to open file for writing: " << filename << std::endl;
+    }
+}
+
+
+TrieNode *deserializeTrie(const std::string &filename) {
+    std::ifstream in(filename, std::ios::binary);
+    if (in.is_open()) {
+        TrieNode* root = TrieNode::deserialize(in);
+        in.close();
+        return root;
+    } else {
+        std::cerr << "Unable to open file for reading: " << filename << std::endl;
+        return nullptr;
+    }
+}
