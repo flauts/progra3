@@ -29,7 +29,6 @@ int main() {
             auto* new_movie = new Movie(id,title, synopsis, tags);
             std::vector<std::string> good_tags = new_movie->getTags();
             movies.insert(new_movie);
-
                 Trie->insert_movies_data(synopsis, new_movie);
                 Trie->insert_movies_data(title, new_movie);
                 Trie->insert_movies_data(tags, new_movie);
