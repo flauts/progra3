@@ -109,6 +109,8 @@
       <workItem from="1720899096629" duration="7978000" />
       <workItem from="1720925786300" duration="14463000" />
       <workItem from="1720981151352" duration="2105000" />
+      <workItem from="1720925786300" duration="3834000" />
+      <workItem from="1720981116554" duration="664000" />
     </task>
     <servers />
   </component>
@@ -116,9 +118,8 @@
     <option name="version" value="3" />
   </component>
   <component name="VCPKGProject">
-    <isAutomaticEditVcpkgJson value="false" />
     <isAutomaticCheckingOnLaunch value="false" />
     <isAutomaticFoundErrors value="true" />
-    <isAutomaticFoundErrors value="true" />
+    <isAutomaticReloadCMake value="true" />
   </component>
 </project>

@@ -1,11 +1,12 @@
 #include "Movie.h"
 #include "../../tools/Utils.h"
 #include <sstream>
+#include <utility>
 
 Movie::Movie(std::string id,std::string  title, std::string  synopsis, const std::string& tags){
-    this->id = id;
-    this->title = title;
-    this->synopsis= synopsis;
+    this->id = std::move(id);
+    this->title = std::move(title);
+    this->synopsis= std::move(synopsis);
     auto tag = Utils::formatTags(tags);
     this->tags=tag;
 }
