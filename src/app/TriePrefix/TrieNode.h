@@ -12,11 +12,12 @@ struct TrieNode {
 
     TrieNode();
     virtual ~TrieNode() = default; // Destructor virtual
+
+
 };
 
 struct TrieNodeVector : public TrieNode {
     unordered_set<Movie*> vectorPelis = unordered_set<Movie*>();
-
     TrieNodeVector() = default;
 };
 

@@ -9,8 +9,6 @@ public:
     SearchEngineBuilder& Query(const std::string& query);
     SearchEngineBuilder& Tags(const std::string& tags);
     SearchEngine* build();
-
 };
-
 
 #endif //PROGRA3_SEARCHENGINEBUILDER_H

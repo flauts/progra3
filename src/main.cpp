@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include "app/Movie/Movie.h"
+#include "app/SearchEngine/SearchEngineBuilder.h"
 #include <cstring>
 using namespace std;
 
@@ -53,7 +54,7 @@ int main() {
         return 1;
     }
 
-    TrieNode* title_root = new TrieNode();
+    auto* title_root = new TrieNode();
     unordered_set<Movie*> movies;
 
     while (database.peek() != EOF) {
@@ -71,13 +72,19 @@ int main() {
             insert_movies_tag(title_root, good_tags, new_movie);
         }
     }
-    for (auto movie : search_movies_by_tag(title_root, "christianfilm")) {
+    for (auto movie : search_movies_by_tag(title_root, "whimsical")) {
         cout << *movie << endl;
     }
+
+    SearchEngineBuilder searchEngineBuilder;
+
+    SearchEngine* searchEngine = searchEngineBuilder.Query("whimsical").Tags("comedy, drama").build();
+
 
     for (auto movie : movies) {
         delete movie;
     }
+
     delete title_root;
 
     return 0;
