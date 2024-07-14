@@ -84,7 +84,7 @@ unordered_set<Movie*>TrieNode::search_movies_by_key(const std::string& key) { //
     return movies; // Devuelve un vector vacío si no hay películas asociadas con la clave
 }
 
-void TrieNode::insert_movies_synopsis(const std::string& key, Movie* mov) {
+void TrieNode::insert_movies_data(const std::string& key, Movie* mov) {
     TrieNode* currentNode = this;
         vector<string> words = Utils::splitString(key);
             for (auto e: words) {

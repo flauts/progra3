@@ -6,49 +6,12 @@
 #include "app/Movie/Movie.h"
 #include "app/SearchEngine/SearchEngineBuilder.h"
 #include <cstring>
-using namespace std;
+#include "tools/Utils.h"
 
-std::string cleanString(const string& str) {
-    string cleaned;
-    for (char c : str) {
-        if (isalnum(c)) {
-            cleaned += tolower(c);
-        }
-    }
-    return cleaned;
-}
 
-std::vector<std::string> parseCSVLine(std::ifstream& file) {
-    std::vector<std::string> result;
-    std::string field;
-    bool inQuotes = false;
-    char ch;
-
-    while (file.get(ch)) {
-        if (ch == '\"') {
-            inQuotes = !inQuotes;
-        } else if (ch == ',' && !inQuotes) {
-            result.push_back(field);
-            field.clear();
-        } else if (ch == '\n' && !inQuotes) {
-            if (!field.empty()) {
-                result.push_back(field);
-            }
-            return result;
-        } else {
-            field += ch;
-        }
-    }
-
-    if (!field.empty()) {
-        result.push_back(field);
-    }
-
-    return result;
-}
 
 int main() {
-    ifstream database("/home/jorughen/Documents/progra3/datos.csv");
+    ifstream database("C:\\Users\\flauta\\progra3\\proyecto\\progra3\\datos.csv");
     if(!database.is_open()) {
         std::cerr << "Error opening file: " << std::strerror(errno) << std::endl;
         return 1;
@@ -60,31 +23,30 @@ int main() {
     unordered_set<Movie*> movies;
 
     while (database.peek() != EOF) {
-        vector<string> fields = parseCSVLine(database);
+        vector<string> fields = Utils::parseCSVLine(database);
         if(fields.size() >= 4) {
             string id = fields[0];
             string title = fields[1];
             string synopsis = fields[2];
             string tags = fields[3];
 
-            string cleanedTitle = cleanString(title);
-            string cleanedSynopsis = cleanString(synopsis);
+            string cleanedTitle = Utils::cleanString(title);
             auto* new_movie = new Movie(id,title, synopsis, tags);
             vector<std::string> good_tags = new_movie->getTags();
             movies.insert(new_movie);
-            title_root->insert_movies_synopsis(synopsis,new_movie);
-            title_root->insert_movies_synopsis(title,new_movie);
+            title_root->insert_movies_data(synopsis, new_movie);
+            title_root->insert_movies_data(title, new_movie);
         }
     }
 // Antes del bucle, abre un archivo de texto en modo de escritura
-    std::ofstream outFile("/home/jorughen/Documents/progra3/resultados.txt");
+    std::ofstream outFile("C:\\Users\\flauta\\progra3\\proyecto\\progra3\\output.txt");
     if (!outFile.is_open()) {
         std::cerr << "Error opening file for writing." << std::endl;
         return 1; // O manejar el error como prefieras
     }
 
 // Dentro del bucle, escribe en el archivo
-    for (auto movie : title_root->search_movies_by_key("White Walter")) {
+    for (auto movie : title_root->search_movies_by_key("Walter White")) {
         outFile << *movie << std::endl;
     }
 

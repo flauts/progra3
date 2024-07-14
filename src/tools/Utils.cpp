@@ -45,4 +45,41 @@ std::vector<std::string> Utils::splitString(const std::string &str) {
         return tokens;
     }
 
+std::string Utils::cleanString(const std::string& str) {
+    std::string cleaned;
+    for (char c : str) {
+        if (isalnum(c)) {
+            cleaned += tolower(c);
+        }
+    }
+    return cleaned;
+}
 
+std::vector<std::string>Utils::parseCSVLine(std::ifstream& file) {
+    std::vector<std::string> result;
+    std::string field;
+    bool inQuotes = false;
+    char ch;
+
+    while (file.get(ch)) {
+        if (ch == '\"') {
+            inQuotes = !inQuotes;
+        } else if (ch == ',' && !inQuotes) {
+            result.push_back(field);
+            field.clear();
+        } else if (ch == '\n' && !inQuotes) {
+            if (!field.empty()) {
+                result.push_back(field);
+            }
+            return result;
+        } else {
+            field += ch;
+        }
+    }
+
+    if (!field.empty()) {
+        result.push_back(field);
+    }
+
+    return result;
+}
