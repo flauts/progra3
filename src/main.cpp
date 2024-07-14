@@ -48,7 +48,7 @@ std::vector<std::string> parseCSVLine(std::ifstream& file) {
 }
 
 int main() {
-    ifstream database("C:\\Users\\flauta\\progra3\\proyecto\\progra3\\datos.csv");
+    ifstream database("/home/jorughen/Documents/progra3/datos.csv");
     if(!database.is_open()) {
         std::cerr << "Error opening file: " << std::strerror(errno) << std::endl;
         return 1;
@@ -73,11 +73,23 @@ int main() {
             vector<std::string> good_tags = new_movie->getTags();
             movies.insert(new_movie);
             title_root->insert_movies_synopsis(synopsis,new_movie);
+            title_root->insert_movies_synopsis(title,new_movie);
         }
     }
-    for (auto movie : title_root->search_movies_by_key("tiger")) {
-        cout << *movie << endl;
+// Antes del bucle, abre un archivo de texto en modo de escritura
+    std::ofstream outFile("/home/jorughen/Documents/progra3/resultados.txt");
+    if (!outFile.is_open()) {
+        std::cerr << "Error opening file for writing." << std::endl;
+        return 1; // O manejar el error como prefieras
     }
+
+// Dentro del bucle, escribe en el archivo
+    for (auto movie : title_root->search_movies_by_key("White Walter")) {
+        outFile << *movie << std::endl;
+    }
+
+// Después del bucle, cierra el archivo
+    outFile.close();
 
     SearchEngineBuilder searchEngineBuilder;
 
