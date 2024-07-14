@@ -10,11 +10,12 @@
 #include <omp.h>
 
 
-int main() {
-
-    auto* Trie = new TrieNode();
+int main(){
+    auto* TrieTitle = new TrieNode();
+    auto* TrieSynopsis = new TrieNode();
     auto* TrieTags = new TrieNode();
     std::unordered_set<Movie*> movies;
+
 
     std::ifstream database("/home/jorughen/Documents/progra3/datos.csv");
     if(!database.is_open()) {
@@ -34,15 +35,11 @@ int main() {
             std::vector<std::string> good_tags = new_movie->getTags();
             movies.insert(new_movie);
 
-                Trie->insert_movies_data(synopsis, new_movie);
-                Trie->insert_movies_data(title, new_movie);
+                TrieSynopsis->insert_movies_data(synopsis, new_movie);
+                TrieTitle->insert_movies_data(title, new_movie);
                 TrieTags->insert_movies_data(tags, new_movie);
-
         }
     }
-
-
-
 
     // Antes del bucle, abre un archivo de texto en modo de escritura
     std::ofstream outFile("/home/jorughen/Documents/progra3/tags.txt");
@@ -52,7 +49,7 @@ int main() {
     }
 
 // Dentro del bucle, escribe en el archivo
-    for (auto movie : Trie->search_movies_by_key("is")) {
+    for (auto movie : TrieTitle->search_movies_by_key("it")) {
         outFile << *movie.first << std::endl;
     }
 
@@ -73,10 +70,7 @@ int main() {
         delete movie;
     }
 
-    delete Trie;
-
-
-
+    delete TrieTitle;
 
     return 0;
 }

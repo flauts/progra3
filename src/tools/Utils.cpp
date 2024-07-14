@@ -1,4 +1,6 @@
 #include "Utils.h"
+#include <codecvt>
+#include <locale>
 
 std::unordered_set<std::string> Utils::loadStopwords(const std::string &filepath) {
         std::unordered_set<std::string> stopwords;
@@ -8,6 +10,37 @@ std::unordered_set<std::string> Utils::loadStopwords(const std::string &filepath
             stopwords.insert(word);
         }
         return stopwords;
+    }
+
+std::string Utils::to_ascii(const std::string& input) {
+        std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+        std::wstring wide = converter.from_bytes(input);
+
+        std::string result;
+        for (wchar_t c : wide) {
+            if (c < 128) {
+                if (std::isalnum(c) || c == ' ' || c == '.' || c == ',' || c == '!' || c == '?' || c == '-' || c == '_') {
+                    if (std::isalpha(c)) {
+                        result += std::tolower(static_cast<char>(c));
+                    } else {
+                        result += static_cast<char>(c);
+                    }
+                }
+            } else {
+                wchar_t normalized = std::towlower(c);
+                if (normalized >= 0x00E0 && normalized <= 0x00FF) {
+                    // Handle common Latin-1 Supplement characters
+                    static const char* latin1_map = "aaaaaaaceeeeiiii"
+                                                    "dnoooooouuuuythn"
+                                                    "aaaaaaaceeeeiiii"
+                                                    "dnoooooouuuuythy";
+                    result += latin1_map[normalized - 0x00E0];
+                }
+                // Other non-ASCII characters are omitted
+            }
+        }
+
+        return result;
     }
 
 
