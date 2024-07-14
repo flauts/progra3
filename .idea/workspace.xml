@@ -11,7 +11,7 @@
   </component>
   <component name="CMakeRunConfigurationManager">
     <generated>
-      <config projectName="progra3" targetName="progra3" />
+      <config projectName="Progra3FinalProject" targetName="Progra3FinalProject" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -22,7 +22,7 @@
   <component name="ChangeListManager">
     <list default="true" id="5f9d1094-4539-498b-93f6-42c4755f0ca2" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/Movie/Movie.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/Movie/Movie.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/TriePrefix/TrieNode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/TriePrefix/TrieNode.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +84,12 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration name="progra3" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="progra3" TARGET_NAME="progra3" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="progra3" RUN_TARGET_NAME="progra3">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Progra3FinalProject" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Progra3FinalProject" TARGET_NAME="Progra3FinalProject" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Progra3FinalProject" RUN_TARGET_NAME="Progra3FinalProject">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -105,7 +110,7 @@
       <workItem from="1720899029132" duration="51000" />
       <workItem from="1720899096629" duration="7978000" />
       <workItem from="1720925786300" duration="3834000" />
-      <workItem from="1720981116554" duration="664000" />
+      <workItem from="1720981116554" duration="821000" />
     </task>
     <servers />
   </component>
