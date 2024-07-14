@@ -1,8 +1,8 @@
 #ifndef PROGRA3_TRIENODE_H
 #define PROGRA3_TRIENODE_H
+
 #include <bits/stdc++.h>
 #include "../Movie/Movie.h"
-
 using namespace std;
 
 struct TrieNode {
@@ -26,4 +26,3 @@ void insert_key(TrieNode* root, const std::string& key, Movie* mov); // Modifica
 vector<Movie*> search_key(TrieNode* root, const std::string& key); // También modificamos aquí
 
 #endif // PROGRA3_TRIENODE_H
-

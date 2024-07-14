@@ -1,4 +1,5 @@
 #include "TrieNode.h"
+#include "../Movie/Movie.h"
 
 TrieNode::TrieNode() {
     wordEnd = false;
@@ -24,6 +25,7 @@ void insert_key(TrieNode* root, const std::string& key, Movie* mov) { // Modific
             TrieNode* newNode = new TrieNode();
             currentNode->childNode[index] = newNode;
         }
+
         currentNode = currentNode->childNode[index];
     }
 
@@ -38,27 +40,30 @@ void insert_key(TrieNode* root, const std::string& key, Movie* mov) { // Modific
     }
 }
 
-//vector<Movie*> search_key(TrieNode* root, const std::string& key) { // Modificación aquí
-//    TrieNode* currentNode = root;
-//
-//    for (auto c : key) {
-//        int index;
-//        if (isdigit(c)) {
-//            index = c - '0' + 26;
-//        } else {
-//            index = c - 'a';
-//        }
-//
-//        if (currentNode->childNode[index] == nullptr) {
-//            return {}; // Devuelve un vector vacío si la clave no existe
-//        }
-//
-//        currentNode = currentNode->childNode[index];
-//    }
-//
-//    if (currentNode->movieNode != nullptr) {
-//        return currentNode->movieNode->vectorPelis;
-//    }
-//
-//    return {}; // Devuelve un vector vacío si no hay películas asociadas con la clave
-//}
+vector<Movie*> search_key(TrieNode* root, const std::string& key) { // Modificación aquí
+    TrieNode* currentNode = root;
+
+    for (auto c : key) {
+        int index;
+        if (isdigit(c)) {
+            index = c - '0' + 26;
+        } else {
+            index = c - 'a';
+        }
+
+        if (currentNode->childNode[index] == nullptr) {
+            return {}; // Devuelve un vector vacío si la clave no existe
+        }
+
+        currentNode = currentNode->childNode[index];
+    }
+
+    if (currentNode->childNode[36] != nullptr) {
+        TrieNodeVector* movieNode = dynamic_cast<TrieNodeVector*>(currentNode->childNode[36]);
+        if (movieNode) {
+            return movieNode->vectorPelis;
+        }
+    }
+
+    return {}; // Devuelve un vector vacío si no hay películas asociadas con la clave
+}

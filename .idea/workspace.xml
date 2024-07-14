@@ -20,7 +20,14 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5f9d1094-4539-498b-93f6-42c4755f0ca2" name="Changes" comment="" />
+    <list default="true" id="5f9d1094-4539-498b-93f6-42c4755f0ca2" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/Movie/Movie.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/Movie/Movie.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/Movie/Movie.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/Movie/Movie.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/TriePrefix/TrieNode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/TriePrefix/TrieNode.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/TriePrefix/TrieNode.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/TriePrefix/TrieNode.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -80,6 +87,11 @@
     </key>
   </component>
   <component name="RunManager">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="progra3" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="progra3" TARGET_NAME="progra3" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="progra3" RUN_TARGET_NAME="progra3">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -100,7 +112,7 @@
       <workItem from="1720890528344" duration="6354000" />
       <workItem from="1720899029132" duration="51000" />
       <workItem from="1720899096629" duration="7978000" />
-      <workItem from="1720925786300" duration="4000" />
+      <workItem from="1720925786300" duration="2888000" />
     </task>
     <servers />
   </component>
@@ -112,16 +124,5 @@
     <isAutomaticCheckingOnLaunch value="false" />
     <isAutomaticFoundErrors value="true" />
     <isAutomaticFoundErrors value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/src/main.cpp</url>
-          <line>73</line>
-          <option name="timeStamp" value="19" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

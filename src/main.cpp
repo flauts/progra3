@@ -65,16 +65,17 @@ int main() {
             string tags = fields[3];
 
             string cleanedTitle = cleanString(title);
-            Movie* new_movie = new Movie(title, synopsis, tags);
+            auto* new_movie = new Movie(title, synopsis, tags);
+            vector<std::string> good_tags = new_movie->getTags();
             movies.insert(new_movie);
-            insert_key(title_root, cleanedTitle, new_movie);
+            insert_key(title_root, good_tags, new_movie);
         }
     }
 
-    string a = "tje";
-    // title_root->search_key(a);
+    for (auto movie : search_key(title_root,"horror")) {
+        cout << *movie << endl;
+    }
 
-    // Clean up
     for (auto movie : movies) {
         delete movie;
     }
