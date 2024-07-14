@@ -1,4 +1,3 @@
-#include <omp.h>
 #include "TrieNode.h"
 #include "../../tools/Utils.h"
 
@@ -13,11 +12,9 @@ TrieNode::TrieNode() {
 std::unordered_set<Movie*> TrieNode::search_movies_by_key(const std::string& key) {
     std::vector<std::string> words = Utils::splitString(key);
     std::vector<std::unordered_set<Movie*>> results(words.size());
-
     if (words.empty()) {
         return {};
     }
-
 #pragma omp parallel for
     for (int i = 0; i < words.size(); ++i) {
         TrieNode* currentNode = this;
@@ -30,11 +27,9 @@ std::unordered_set<Movie*> TrieNode::search_movies_by_key(const std::string& key
                 c = tolower(c);
                 index = c - 'a';
             }
-
             if (currentNode->childNode[index] == nullptr) {
                 break;
             }
-
             currentNode = currentNode->childNode[index];
         }
 
@@ -45,8 +40,6 @@ std::unordered_set<Movie*> TrieNode::search_movies_by_key(const std::string& key
             }
         }
     }
-
-    // Compute intersection
     std::unordered_set<Movie*> finalResult = results[0];
     for (int i = 1; i < results.size(); ++i) {
         std::unordered_set<Movie*> intersection;
@@ -110,7 +103,6 @@ void TrieNode::serialize(std::ofstream& out) const {
     bool hasMovieNode = (movieNode != nullptr);
     out.write(reinterpret_cast<const char*>(&hasMovieNode), sizeof(bool));
 
-    // If movieNode exists, serialize TrieNodeVector
     if (hasMovieNode) {
         TrieNodeVector* movieNodeVector = dynamic_cast<TrieNodeVector*>(movieNode);
         if (movieNodeVector) {
@@ -172,6 +164,5 @@ TrieNode* TrieNode::deserialize(std::ifstream& in) {
             node->childNode[i] = nullptr;
         }
     }
-
     return node;
 }
