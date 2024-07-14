@@ -17,7 +17,7 @@ namespace Utils {
     TrieNode* deserializeTrie(const std::string& filename);
     void serializeTrie(const TrieNode* root, const std::string& filename);
 
-
+    std::string to_ascii(const std::string& input);
     std::vector<std::string> parseCSVLine(std::ifstream &file);
 
     std::string cleanString(const std::string &str);
