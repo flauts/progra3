@@ -18,6 +18,31 @@ std::vector<std::string> Utils::formatTags(const std::string &tags) {
     while (getline(ss, t, delimiter)) {
         tag.push_back(t);
     }
+    return tag;
 }
+
+std::vector<std::string> Utils::splitString(const std::string &str) {
+    std::unordered_set<char> delimiters = {' ', ',', '.'};
+    std::vector<std::string> tokens;
+        std::string token;
+        std::stringstream ss(str);
+        while (std::getline(ss, token)) {
+            std::string word;
+            for (char c : token) {
+                if (delimiters.find(c) != delimiters.end()) {
+                    if (!word.empty()) {
+                        tokens.push_back(word);
+                        word.clear();
+                    }
+                } else {
+                    word += c;
+                }
+            }
+            if (!word.empty()) {
+                tokens.push_back(word);
+            }
+        }
+        return tokens;
+    }
 
 

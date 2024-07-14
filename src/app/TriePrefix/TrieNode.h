@@ -15,6 +15,7 @@ struct TrieNode {
 
     void insert_movies_key(const std::vector<std::string>& key, Movie* mov); // Modificación aquí
     unordered_set<Movie*> search_movies_by_key(const std::string& key); // También modificamos aquí
+    void insert_movies_synopsis(const std::string &key, Movie *mov);
 };
 
 struct TrieNodeVector : public TrieNode {

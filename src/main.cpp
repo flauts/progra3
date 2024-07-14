@@ -71,12 +71,11 @@ int main() {
             string cleanedSynopsis = cleanString(synopsis);
             auto* new_movie = new Movie(id,title, synopsis, tags);
             vector<std::string> good_tags = new_movie->getTags();
-
             movies.insert(new_movie);
-            title_root->insert_movies_key(cleanedTitle, new_movie);
+            title_root->insert_movies_synopsis(synopsis,new_movie);
         }
     }
-    for (auto movie : search_movies_by_tag(title_root, "whimsical")) {
+    for (auto movie : title_root->search_movies_by_key("tiger")) {
         cout << *movie << endl;
     }
 

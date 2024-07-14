@@ -11,6 +11,7 @@
 namespace Utils {
     std::unordered_set<std::string> loadStopwords(const std::string& filepath);
     std::vector<std::string> formatTags(const std::string& tags);
+    std::vector<std::string> splitString(const std::string& str);
 };
 
 
