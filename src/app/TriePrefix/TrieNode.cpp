@@ -79,12 +79,14 @@ void TrieNode::insert_movies_synopsis(const std::string& key, Movie* mov) {
     TrieNode* currentNode = this;
         vector<string> words = Utils::splitString(key);
             for (auto e: words) {
+                currentNode=this;
                 for(auto c: e) {
                 int index;
                 if (!isalnum(c)) { continue; }
                 if (isdigit(c)) {
                     index = c - '0' + 26;
                 } else {
+                    c = tolower(c);
                     index = c - 'a';
                 }
                 if (currentNode->childNode[index] == nullptr) {

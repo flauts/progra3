@@ -48,7 +48,7 @@ std::vector<std::string> parseCSVLine(std::ifstream& file) {
 }
 
 int main() {
-    ifstream database("C:\\Users\\flauta\\progra3\\proyecto\\progra3\\datos.csv");
+    ifstream database("/home/jorughen/Documents/progra3/datos.csv");
     if(!database.is_open()) {
         std::cerr << "Error opening file: " << std::strerror(errno) << std::endl;
         return 1;
