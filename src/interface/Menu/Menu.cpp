@@ -13,8 +13,8 @@ Menu::Menu() {
     cbreak();
     keypad(stdscr, TRUE);
 
-    commands.push_back(make_unique<Option1Command>());
-    commands.push_back(make_unique<Option2Command>());
+    commands.push_back(make_unique<Option1>());
+    commands.push_back(make_unique<Option2>());
 }
 
 Menu::~Menu() {
@@ -27,7 +27,7 @@ Menu& Menu::getInstance() {
 
 void Menu::drawMenu() {
     clear();
-    mvprintw(0, 0, "Menu Principal:");
+    mvprintw(0, 0, "ChavezNet:");
     mvprintw(1, 0, "1. Opcion 1");
     mvprintw(2, 0, "2. Opcion 2");
     mvprintw(3, 0, "3. Salir");

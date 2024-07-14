@@ -11,12 +11,12 @@ public:
     virtual ~Command() = default;
 };
 
-class Option1Command final : public Command {
+class Option1 final : public Command {
 public:
     void execute() override;
 };
 
-class Option2Command final : public Command {
+class Option2 final : public Command {
 public:
     void execute() override;
 };

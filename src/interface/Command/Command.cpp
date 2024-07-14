@@ -5,14 +5,14 @@
 #include "Command.h"
 #include <ncurses.h>
 
-void Option1Command::execute() {
+void Option1::execute() {
     clear();
     mvprintw(0, 0, "Opcion 1 seleccionada");
     refresh();
     getch();
 }
 
-void Option2Command::execute() {
+void Option2::execute() {
     clear();
     mvprintw(0, 0, "Opcion 2 seleccionada");
     refresh();
