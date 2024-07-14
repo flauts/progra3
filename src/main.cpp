@@ -71,8 +71,7 @@ int main() {
             insert_movies_tag(title_root, good_tags, new_movie);
         }
     }
-
-    for (auto movie : search_movies_by_tag(title_root, "horror")) {
+    for (auto movie : search_movies_by_tag(title_root, "christianfilm")) {
         cout << *movie << endl;
     }
 

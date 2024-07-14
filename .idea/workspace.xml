@@ -21,6 +21,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5f9d1094-4539-498b-93f6-42c4755f0ca2" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.~lock.datos.csv#" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/TriePrefix/TrieNode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/TriePrefix/TrieNode.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/TriePrefix/TrieNode.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/TriePrefix/TrieNode.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
@@ -109,7 +111,7 @@
       <workItem from="1720890528344" duration="6354000" />
       <workItem from="1720899029132" duration="51000" />
       <workItem from="1720899096629" duration="7978000" />
-      <workItem from="1720925786300" duration="3834000" />
+      <workItem from="1720925786300" duration="6192000" />
     </task>
     <servers />
   </component>

@@ -15,14 +15,12 @@ struct TrieNode {
 };
 
 struct TrieNodeVector : public TrieNode {
-    vector<Movie*> vectorPelis;
+    unordered_set<Movie*> vectorPelis = unordered_set<Movie*>();
 
-    TrieNodeVector() : TrieNode() {
-        vectorPelis = vector<Movie*>();
-    }
+    TrieNodeVector() = default;
 };
 
-void insert_movies_tag(TrieNode* root, const std::string& key, Movie* mov); // Modificación aquí
-vector<Movie*> search_movies_by_tag(TrieNode* root, const std::string& key); // También modificamos aquí
+void insert_movies_tag(TrieNode* root, const std::vector<std::string>& tags, Movie* mov); // Modificación aquí
+unordered_set<Movie*> search_movies_by_tag(TrieNode* root, const std::string& key); // También modificamos aquí
 
 #endif // PROGRA3_TRIENODE_H
