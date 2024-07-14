@@ -11,7 +11,7 @@
 
 
 int main() {
-    ifstream database("C:\\Users\\flauta\\progra3\\proyecto\\progra3\\datos.csv");
+    std::ifstream database("C:\\Users\\flauta\\progra3\\proyecto\\progra3\\datos.csv");
     if(!database.is_open()) {
         std::cerr << "Error opening file: " << std::strerror(errno) << std::endl;
         return 1;
@@ -20,24 +20,26 @@ int main() {
     auto* title_root = new TrieNode();
 
 
-    unordered_set<Movie*> movies;
+    std::unordered_set<Movie*> movies;
 
     while (database.peek() != EOF) {
-        vector<string> fields = Utils::parseCSVLine(database);
+        std::vector<std::string> fields = Utils::parseCSVLine(database);
         if(fields.size() >= 4) {
-            string id = fields[0];
-            string title = fields[1];
-            string synopsis = fields[2];
-            string tags = fields[3];
+            std::string id = fields[0];
+            std::string title = fields[1];
+            std::string synopsis = fields[2];
+            std::string tags = fields[3];
 
-            string cleanedTitle = Utils::cleanString(title);
+            std::string cleanedTitle = Utils::cleanString(title);
             auto* new_movie = new Movie(id,title, synopsis, tags);
-            vector<std::string> good_tags = new_movie->getTags();
+            std::vector<std::string> good_tags = new_movie->getTags();
             movies.insert(new_movie);
             title_root->insert_movies_data(synopsis, new_movie);
             title_root->insert_movies_data(title, new_movie);
         }
     }
+
+    Utils::serializeTrie(title_root, "C:\\Users\\flauta\\progra3\\proyecto\\progra3\\trie.txt");
 // Antes del bucle, abre un archivo de texto en modo de escritura
     std::ofstream outFile("C:\\Users\\flauta\\progra3\\proyecto\\progra3\\output.txt");
     if (!outFile.is_open()) {

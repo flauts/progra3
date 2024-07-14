@@ -7,12 +7,16 @@
 #include <vector>
 #include <sstream>
 #include <string>
+#include "../app/TriePrefix/TrieNode.h"
 
 
 namespace Utils {
     std::unordered_set<std::string> loadStopwords(const std::string& filepath);
     std::vector<std::string> formatTags(const std::string& tags);
     std::vector<std::string> splitString(const std::string& str);
+    TrieNode* deserializeTrie(const std::string& filename);
+    void serializeTrie(const TrieNode* root, const std::string& filename);
+
 
     std::vector<std::string> parseCSVLine(std::ifstream &file);
 
