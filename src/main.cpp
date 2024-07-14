@@ -68,11 +68,11 @@ int main() {
             auto* new_movie = new Movie(title, synopsis, tags);
             vector<std::string> good_tags = new_movie->getTags();
             movies.insert(new_movie);
-            insert_key(title_root, good_tags, new_movie);
+            insert_movies_tag(title_root, good_tags, new_movie);
         }
     }
 
-    for (auto movie : search_key(title_root,"horror")) {
+    for (auto movie : search_movies_by_tag(title_root, "horror")) {
         cout << *movie << endl;
     }
 

@@ -22,7 +22,7 @@ struct TrieNodeVector : public TrieNode {
     }
 };
 
-void insert_key(TrieNode* root, const std::string& key, Movie* mov); // Modificación aquí
-vector<Movie*> search_key(TrieNode* root, const std::string& key); // También modificamos aquí
+void insert_movies_tag(TrieNode* root, const std::string& key, Movie* mov); // Modificación aquí
+vector<Movie*> search_movies_by_tag(TrieNode* root, const std::string& key); // También modificamos aquí
 
 #endif // PROGRA3_TRIENODE_H

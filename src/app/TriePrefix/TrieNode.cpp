@@ -9,11 +9,11 @@ TrieNode::TrieNode() {
     }
 }
 
-void insert_key(TrieNode* root, const std::string& key, Movie* mov) { // Modificación aquí
+void insert_movies_tag(TrieNode* root, const std::vector<std::string> tags, Movie* mov) { // Modificación aquí
     TrieNode* currentNode = root;
 
-    for (int i = 0; i < key.length(); i++) {
-        char c = key[i];
+    for (int i = 0; i < tags.size(); i++) {
+        char c = tags[i];
         int index;
         if (isdigit(c)) {
             index = c - '0' + 26;
@@ -40,7 +40,7 @@ void insert_key(TrieNode* root, const std::string& key, Movie* mov) { // Modific
     }
 }
 
-vector<Movie*> search_key(TrieNode* root, const std::string& key) { // Modificación aquí
+vector<Movie*> search_movies_by_tag(TrieNode* root, const std::string& key) { // Modificación aquí
     TrieNode* currentNode = root;
 
     for (auto c : key) {
