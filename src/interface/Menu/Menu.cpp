@@ -4,14 +4,13 @@
 
 #include "Menu.h"
 
-void Menu::run() {
+[[noreturn]] void Menu::run() {
     commands.push_back(std::make_unique<Option1Command>());
     commands.push_back(std::make_unique<Option2Command>());
 
-    int choice;
     while (true) {
         drawMenu();
-        choice = getch();
+        const int choice = getch();
         processInput(choice);
     }
 }
@@ -25,7 +24,7 @@ void Menu::drawMenu() {
     refresh();
 }
 
-void Menu::processInput(int ch) {
+void Menu::processInput(const int ch) const {
     switch (ch) {
         case '1':
             commands[0]->execute();

@@ -17,7 +17,10 @@ public:
         return instance;
     }
 
-    void run();
+    [[noreturn]] void run();
+
+    Menu(const Menu&) = delete;
+    Menu& operator=(const Menu&) = delete;
 
 private:
     Menu() {
@@ -31,13 +34,11 @@ private:
         endwin();
     }
 
-    Menu(const Menu&) = delete;
-    Menu& operator=(const Menu&) = delete;
 
-    void drawMenu();
-    void processInput(int ch);
+    static void drawMenu();
+    void processInput(int ch) const;
 
-    std::vector<std::unique_ptr<Command>> commands;
+    std::vector<std::unique_ptr<Command>> commands{};
 };
 
 #endif // MENU_H

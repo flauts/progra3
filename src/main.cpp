@@ -2,5 +2,4 @@
 
 int main() {
     Menu::getInstance().run();
-    return 0;
 }
