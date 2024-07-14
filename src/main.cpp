@@ -5,7 +5,7 @@
 #include "app/Movie/Movie.h"
 #include "app/SearchEngine/SearchEngineBuilder.h"
 #include "tools/Utils.h"
-
+#include <omp.h>
 
 int main() {
 
