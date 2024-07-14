@@ -84,7 +84,7 @@ int main() {
     }
 
 // Dentro del bucle, escribe en el archivo
-    for (auto movie : title_root->search_movies_by_key("White Walter")) {
+    for (auto movie : title_root->search_movies_by_key("Walter Breaking White Bad")) {
         outFile << *movie << std::endl;
     }
 
