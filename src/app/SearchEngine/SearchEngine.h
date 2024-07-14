@@ -5,6 +5,7 @@
 
 //Builder aplicar aca
 class SearchEngine {
+    friend class SearchEngineBuilder;
     std::string query;
     std::unordered_set<std::string> tags;
 };

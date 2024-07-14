@@ -22,7 +22,7 @@ SearchEngineBuilder &SearchEngineBuilder::Tags(const std::string &tags) {
 
 SearchEngine *SearchEngineBuilder::build() {
     if(searchEngine_->query.empty() and searchEngine_->tags.empty()){
-        throw std::runtime_error("Query is empty");
+        throw std::runtime_error("Query and tag is empty");
     }
     return searchEngine_;
 }
