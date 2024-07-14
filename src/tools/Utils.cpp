@@ -80,7 +80,6 @@ std::vector<std::string>Utils::parseCSVLine(std::ifstream& file) {
     if (!field.empty()) {
         result.push_back(field);
     }
-
     return result;
 }
 

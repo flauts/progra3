@@ -43,7 +43,6 @@ TrieNode::TrieNode() {
 //        }
 //    }
 //
-//}
 
 
 std::unordered_set<Movie*>TrieNode::search_movies_by_key(const std::string& key) { // Modificación aquí
@@ -55,6 +54,7 @@ std::unordered_set<Movie*>TrieNode::search_movies_by_key(const std::string& key)
         for (auto c: e) {
             int index;
             if (!isalnum(c)) { continue; }
+            int index;
             if (isdigit(c)) {
                 index = c - '0' + 26;
             } else {
@@ -63,23 +63,41 @@ std::unordered_set<Movie*>TrieNode::search_movies_by_key(const std::string& key)
             }
 
             if (currentNode->childNode[index] == nullptr) {
-                return {}; // Devuelve un vector vacío si la clave no existe
+                return {}; // Devuelve un conjunto vacío si una de las palabras no existe
             }
 
             currentNode = currentNode->childNode[index];
         }
 
         if (currentNode->childNode[36] != nullptr) {
-            TrieNodeVector *movieNode = dynamic_cast<TrieNodeVector *>(currentNode->childNode[36]);
+            TrieNodeVector* movieNode = dynamic_cast<TrieNodeVector*>(currentNode->childNode[36]);
             if (movieNode) {
                 for (auto mov : movieNode->vectorPelis) {
-                    movies.insert(mov);
+                    currentMovies.insert(mov);
                 }
+            }
+        }
+
+        if (firstWord) {
+            result = currentMovies;
+            firstWord = false;
+        } else {
+            // Intersección de conjuntos
+            unordered_set<Movie*> intersection;
+            for (auto& mov : result) {
+                if (currentMovies.find(mov) != currentMovies.end()) {
+                    intersection.insert(mov);
+                }
+            }
+            result = intersection;
+
+            if (result.empty()) {
+                return result; // Si la intersección es vacía, no hay películas que coincidan con todas las palabras
             }
         }
     }
 
-    return movies; // Devuelve un vector vacío si no hay películas asociadas con la clave
+    return result; // Devuelve el conjunto de películas que coinciden con todas las palabras
 }
 
 void TrieNode::insert_movies_data(const std::string& key, Movie* mov) {

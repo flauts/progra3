@@ -18,6 +18,7 @@ int main() {
     }
 
     auto* title_root = new TrieNode();
+    auto* tags_root = new TrieNode();
 
 
     std::unordered_set<Movie*> movies;
@@ -36,6 +37,7 @@ int main() {
             movies.insert(new_movie);
             title_root->insert_movies_data(synopsis, new_movie);
             title_root->insert_movies_data(title, new_movie);
+            tags_root->insert_movies_data(tags, new_movie);
         }
     }
 
@@ -48,12 +50,32 @@ int main() {
     }
 
 // Dentro del bucle, escribe en el archivo
-    for (auto movie : title_root->search_movies_by_key("Walter White")) {
+    for (auto movie : title_root->search_movies_by_key("Walter Breaking White Bad")) {
         outFile << *movie << std::endl;
     }
 
 // Después del bucle, cierra el archivo
     outFile.close();
+
+
+    // Antes del bucle, abre un archivo de texto en modo de escritura
+    std::ofstream outFile2("/home/jorughen/Documents/progra3/resultadosTag.txt");
+    if (!outFile2.is_open()) {
+        std::cerr << "Error opening file for writing." << std::endl;
+        return 1; // O manejar el error como prefieras
+    }
+
+// Dentro del bucle, escribe en el archivo
+    for (auto movie : tags_root->search_movies_by_key("Horror Action")) {
+        outFile2 << *movie << std::endl;
+    }
+
+// Después del bucle, cierra el archivo
+    outFile2.close();
+
+
+
+
 
     SearchEngineBuilder searchEngineBuilder;
 
@@ -65,6 +87,9 @@ int main() {
     }
 
     delete title_root;
+
+
+
 
     return 0;
 }
