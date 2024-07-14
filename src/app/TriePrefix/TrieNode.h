@@ -7,6 +7,8 @@
 #include <fstream>
 #include <queue>
 #include <string>
+#include <mutex>
+#include <thread>
 
 class TrieNodeVector;
 
@@ -14,11 +16,12 @@ struct TrieNode {
     TrieNode* childNode[37];
     bool wordEnd;
     TrieNode* movieNode;
+    std::mutex nodeMutex;
 
     TrieNode();
     virtual ~TrieNode() = default;
 
-    std::unordered_set<Movie*> search_movies_by_key(const std::string& key);
+    std::vector<std::pair<Movie*,int>> search_movies_by_key(const std::string& key, TrieNode* currentPastNode = nullptr);
     void insert_movies_data(const std::string &key, Movie *mov);
 
     // Serialization method
@@ -34,6 +37,5 @@ struct TrieNodeVector : public TrieNode {
 
     explicit TrieNodeVector(const std::unordered_set<Movie *> &vectorPelis);
 };
-
 
 #endif // PROGRA3_TRIENODE_H
