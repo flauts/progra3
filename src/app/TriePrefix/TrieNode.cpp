@@ -24,7 +24,6 @@ void insert_key(TrieNode* root, const std::string& key, Movie* mov) { // Modific
             TrieNode* newNode = new TrieNode();
             currentNode->childNode[index] = newNode;
         }
-
         currentNode = currentNode->childNode[index];
     }
 
