@@ -1,86 +1,65 @@
-//
-// Created by jorughen on 7/13/24.
-//
-
 #include "TrieNode.h"
 
 TrieNode::TrieNode() {
-    // constructor
-    // initialize the wordEnd variable with false
-    // initialize every index of childNode array with
-    // NULL
     wordEnd = false;
-
-    for (int i = 0; i < 26; i++) {
+    movieNode = nullptr;
+    for (int i = 0; i < 37; i++) {
         childNode[i] = nullptr;
     }
 }
 
-void insert_key(TrieNode* root, string& key)
-{
-    // Initialize the currentNode pointer
-    // with the root node
+void insert_key(TrieNode* root, const std::string& key, Movie* mov) { // Modificación aquí
     TrieNode* currentNode = root;
 
-    // Iterate across the length of the string
-    for (int i = 0; i < key.length(); i++){
+    for (int i = 0; i < key.length(); i++) {
         char c = key[i];
-        // Check if the node exist for the current
-        // character in the Trie.
-        if (isdigit(c)){
-            c -= '0'+27;
-        }
-        else{
-            c -= 'a';
+        int index;
+        if (isdigit(c)) {
+            index = c - '0' + 26;
+        } else {
+            index = c - 'a';
         }
 
-        if (currentNode->childNode[c] == nullptr) {
-
-            // If node for current character does not exist
-            // then make a new node
+        if (currentNode->childNode[index] == nullptr) {
             TrieNode* newNode = new TrieNode();
-
-            // Keep the reference for the newly created
-            // node.
-            currentNode->childNode[c] = newNode;
+            currentNode->childNode[index] = newNode;
         }
 
-        // Now, move the current node pointer to the newly
-        // created node.
-        currentNode = currentNode->childNode[c];
+        currentNode = currentNode->childNode[index];
     }
 
-    // Increment the wordEndCount for the last currentNode
-    // pointer this implies that there is a string ending at
-    // currentNode.
-    currentNode->wordEnd = true;
-
-
-
-}
-
-bool search_key(TrieNode* root, string& key)
-{
-    // Initialize the currentNode pointer
-    // with the root node
-    TrieNode* currentNode = root;
-
-    // Iterate across the length of the string
-    for (auto c : key) {
-
-        // Check if the node exist for the current
-        // character in the Trie.
-        if (currentNode->childNode[c - 'a'] == nullptr) {
-
-            // Given word does not exist in Trie
-            return false;
-        }
-
-        // Move the currentNode pointer to the already
-        // existing node for current character.
-        currentNode = currentNode->childNode[c - 'a'];
+    if (currentNode->childNode[36] == nullptr) {
+        TrieNodeVector* newNode = new TrieNodeVector();
+        currentNode->childNode[36] = newNode;
     }
 
-    return currentNode->wordEnd;
+    TrieNodeVector* movieNode = dynamic_cast<TrieNodeVector*>(currentNode->childNode[36]);
+    if (movieNode) {
+        movieNode->vectorPelis.push_back(mov);
+    }
 }
 
+//vector<Movie*> search_key(TrieNode* root, const std::string& key) { // Modificación aquí
+//    TrieNode* currentNode = root;
+//
+//    for (auto c : key) {
+//        int index;
+//        if (isdigit(c)) {
+//            index = c - '0' + 26;
+//        } else {
+//            index = c - 'a';
+//        }
+//
+//        if (currentNode->childNode[index] == nullptr) {
+//            return {}; // Devuelve un vector vacío si la clave no existe
+//        }
+//
+//        currentNode = currentNode->childNode[index];
+//    }
+//
+//    if (currentNode->movieNode != nullptr) {
+//        return currentNode->movieNode->vectorPelis;
+//    }
+//
+//    return {}; // Devuelve un vector vacío si no hay películas asociadas con la clave
+//}

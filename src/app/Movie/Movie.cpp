@@ -1,20 +1,13 @@
-
 #include "Movie.h"
 
+#include <utility>
 
-const std::string &Movie::getSynopsis() const {
-    return synopsis;
-}
+Movie::Movie(std::string  title, std::string  synopsis, const std::vector<std::string>& tags)
+        : title(std::move(title)), synopsis(std::move(synopsis)), tags(tags) {}
 
-const std::unordered_set<std::string> &Movie::getTags() const {
+std::vector<std::string> Movie::getTags() const {
     return tags;
 }
-
-const std::string &Movie::getTitle() const {
+std::string Movie::getTitle() const { // Definición del método getTitle
     return title;
-}
-
-Movie::Movie(const std::string &title, const std::string &synopsis, const std::string &tags){
-    this->title = title;
-    this->title = synopsis;
 }

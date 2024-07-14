@@ -1,19 +1,21 @@
-#ifndef PROGRA3_MOVIE_H
-#define PROGRA3_MOVIE_H
+#ifndef MOVIE_H
+#define MOVIE_H
+
 #include <string>
-#include <unordered_set>
+#include <vector>
 
 class Movie {
+private:
     std::string title;
     std::string synopsis;
-    std::unordered_set<std::string> tags;
-public:
-    const std::string &getTitle() const;
-    const std::string &getSynopsis() const;
-    const std::unordered_set<std::string> &getTags() const;
-    Movie(const std::string &title, const std::string &synopsis, const std::string &tags);
+    std::vector<std::string> tags;
 
+public:
+    Movie(std::string  title, std::string  synopsis, const std::vector<std::string>& tags);
+
+    std::vector<std::string> getTags() const;
+
+    std::string getTitle() const;
 };
 
-
-#endif //PROGRA3_MOVIE_H
+#endif // MOVIE_H
