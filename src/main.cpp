@@ -1,12 +1,10 @@
 #include <iostream>
 #include <fstream>
 #include "app/TriePrefix/TrieNode.h"
-#include <unordered_map>
 #include <unordered_set>
 #include "app/Movie/Movie.h"
 #include "app/SearchEngine/SearchEngineBuilder.h"
 #include "tools/Utils.h"
-
 
 
 int main() {

@@ -1,6 +1,7 @@
+#include <omp.h>
 #include "TrieNode.h"
 #include "../../tools/Utils.h"
-#include <omp.h>
+
 
 
 
@@ -110,9 +111,10 @@ std::unordered_set<Movie*> TrieNode::search_movies_by_key(const std::string& key
 }
 
 void TrieNode::insert_movies_data(const std::string& key, Movie* mov) {
+    omp_set_num_threads(4);
     TrieNode* currentNode = this;
     std::vector<std::string> words = Utils::splitString(key);
-    #pragma omp parallel
+    #pragma omp parallel for
     {
     for (auto e: words) {
                 currentNode=this;
