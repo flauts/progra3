@@ -14,7 +14,8 @@ class TrieNodeVector;
 
 struct TrieNode {
     TrieNode* childNode[37];
-    bool wordEnd;
+    bool isTitle;
+    bool isTag;
     TrieNode* movieNode;
     std::mutex nodeMutex;
 
@@ -25,10 +26,10 @@ struct TrieNode {
     void insert_movies_data(const std::string &key, Movie *mov);
 
     // Serialization method
-    void serialize(std::ofstream& out) const;
+//    void serialize(std::ofstream& out) const;
 
     // Deserialization method
-    static TrieNode* deserialize(std::ifstream& in);
+//    static TrieNode* deserialize(std::ifstream& in);
 };
 
 struct TrieNodeVector : public TrieNode {

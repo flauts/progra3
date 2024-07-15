@@ -14,8 +14,8 @@ namespace Utils {
     std::unordered_set<std::string> loadStopwords(const std::string& filepath);
     std::vector<std::string> formatTags(const std::string& tags);
     std::vector<std::string> splitString(const std::string& str);
-    TrieNode* deserializeTrie(const std::string& filename);
-    void serializeTrie(const TrieNode* root, const std::string& filename);
+//    TrieNode* deserializeTrie(const std::string& filename);
+//    void serializeTrie(const TrieNode* root, const std::string& filename);
 
     std::string to_ascii(const std::string& input);
     std::vector<std::string> parseCSVLine(std::ifstream &file);
