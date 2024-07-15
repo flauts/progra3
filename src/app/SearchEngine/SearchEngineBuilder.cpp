@@ -73,14 +73,20 @@ SearchEngine* SearchEngineBuilder::build() {
 }
 
 SearchEngine* SearchEngineBuilder::getNextPage() {
-    page++;
-    std::copy_n(movies.begin() + page*5, 5, searchEngine_->movies.begin());
+    ++page;
+    for (int i = page*5; i < page*5+5; ++i) {
+        searchEngine_->movies[i] = movies[i];
+    }
+
     return searchEngine_;
 }
 
 SearchEngine* SearchEngineBuilder::getBeforePage() {
-    page--;
-    std::copy_n(movies.begin() + page*5, 5, searchEngine_->movies.begin());
+    --page;
+    for (int i = page*5; i < page*5+5; ++i) {
+        searchEngine_->movies[i] = movies[i];
+    }
+
     return searchEngine_;
 }
 

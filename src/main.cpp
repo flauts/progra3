@@ -67,14 +67,14 @@ int main(){
 
         }
     }
-    std::ofstream outFile(projectDir/"tags.txt");
-    if (!outFile.is_open()) {
-        std::cerr << "Error opening file for writing." << std::endl;
-        return 1; // O manejar el error como prefieras
-    }
+//    std::ofstream outFile(projectDir/"tags.txt");
+//    if (!outFile.is_open()) {
+//        std::cerr << "Error opening file for writing." << std::endl;
+//        return 1; // O manejar el error como prefieras
+//    }
 
     for (auto movie : searchEngineBuilder.build()->get()) {
-        outFile << *movie << std::endl;
+        std::cout << movie->getTitle() << std::endl;
     }
 
     active = true;
@@ -87,13 +87,13 @@ int main(){
             case 1:
                 searchEngineBuilder.getNextPage();
                 for (auto movie : searchEngineBuilder.build()->get()) {
-                    outFile << *movie << std::endl;
+                    std::cout << movie->getTitle() << std::endl;
                 }
                 break;
             case 2:
                 searchEngineBuilder.getBeforePage();
                 for (auto movie : searchEngineBuilder.build()->get()) {
-                    outFile << *movie << std::endl;
+                    std::cout << movie->getTitle() << std::endl;
                 }
 
                 break;
@@ -103,7 +103,7 @@ int main(){
         }
     }
 
-    outFile.close();
+//    outFile.close();
 
 
     for (auto movie : movies) {
