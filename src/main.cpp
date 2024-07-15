@@ -7,21 +7,16 @@
 #include "tools/Utils.h"
 #include <vector>
 #include <filesystem>
-#include "../interface/Menu/Menu.h"
 
 namespace fs = std::filesystem;
 
 int main(){
-
-
-
     fs::path projectDir = fs::absolute(fs::path(__FILE__).parent_path().parent_path());
 
     auto* TrieTitle = new TrieNode();
     auto* TrieSynopsis = new TrieNode();
     auto* TrieTags = new TrieNode();
     std::unordered_set<Movie*> movies;
-
 
     std::ifstream database(projectDir/"datos.csv");
 
@@ -44,22 +39,68 @@ int main(){
         }
     }
 
+    bool active = true;
+    SearchEngineBuilder searchEngineBuilder(TrieTitle, TrieSynopsis, TrieTags);
+    while(active){
+        int input;
+        std::cout<<"1. Ingrese la busqueda"<<std::endl;
+        std::cout<<"2. Ingrese los tags"<<std::endl;
+        std::cout<<"3. Buscar"<<std::endl;
+        std::cin >> input;
+        std::cin.ignore();
+        switch (input) {
+            case 1: {
+                std::string query;
+                std::getline(std::cin, query);
+                searchEngineBuilder.Query(query);
+                break;}
+            case 2:{
+                std::string tags;
+                std::getline(std::cin, tags);
+                searchEngineBuilder.Tags(tags);
+                break;
+            }
+            case 3:
+                std::cout<<"buscando"<<std::endl;
+                active = false;
+                break;
+
+        }
+    }
     std::ofstream outFile(projectDir/"tags.txt");
     if (!outFile.is_open()) {
         std::cerr << "Error opening file for writing." << std::endl;
         return 1; // O manejar el error como prefieras
     }
 
-    SearchEngineBuilder searchEngineBuilder(TrieTitle, TrieSynopsis, TrieTags);
-
-
-    auto pepe = searchEngineBuilder.Query("").
-            Tags("christian").
-            Tags("family").
-            build()->execute();
-
-    for (auto movie : pepe) {
+    for (auto movie : searchEngineBuilder.build()->get()) {
         outFile << *movie << std::endl;
+    }
+
+    active = true;
+    while(active) {
+        int input;
+        std::cout<<"1. Siguiente pagina"<<std::endl;
+        std::cout<<"2. Siguiente pagina"<<std::endl;
+        std::cin >> input;
+        switch (input) {
+            case 1:
+                searchEngineBuilder.getNextPage();
+                for (auto movie : searchEngineBuilder.build()->get()) {
+                    outFile << *movie << std::endl;
+                }
+                break;
+            case 2:
+                searchEngineBuilder.getBeforePage();
+                for (auto movie : searchEngineBuilder.build()->get()) {
+                    outFile << *movie << std::endl;
+                }
+
+                break;
+            case 3:
+                active = false;
+                break;
+        }
     }
 
     outFile.close();
