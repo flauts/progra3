@@ -7,12 +7,16 @@
 #include "tools/Utils.h"
 #include <vector>
 #include <filesystem>
+#include "../interface/Menu/Menu.h"
 
 namespace fs = std::filesystem;
 
 
 
 int main(){
+
+
+
     fs::path projectDir = fs::absolute(fs::path(__FILE__).parent_path().parent_path());
 
     auto* TrieData = new TrieNode();
