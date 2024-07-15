@@ -22,6 +22,11 @@
   <component name="ChangeListManager">
     <list default="true" id="5f9d1094-4539-498b-93f6-42c4755f0ca2" name="Changes" comment="cambios para paginacion y main para interfaz">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/SearchEngine/SearchEngine.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/SearchEngine/SearchEngine.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/SearchEngine/SearchEngine.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/SearchEngine/SearchEngine.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/SearchEngine/SearchEngineBuilder.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/SearchEngine/SearchEngineBuilder.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/SearchEngine/SearchEngineBuilder.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/SearchEngine/SearchEngineBuilder.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,7 +76,7 @@
     "WebServerToolWindowFactoryState": "false",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "flauta100",
+    "git-widget-placeholder": "main",
     "last_opened_file_path": "C:/Users/flauta/CLionProjects/progra31/progra3",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -93,6 +98,11 @@
   </component>
   <component name="RunManager">
     <configuration name="ChavezNet" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ChavezNet" TARGET_NAME="ChavezNet" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="ChavezNet" RUN_TARGET_NAME="ChavezNet">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -144,5 +154,16 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="cambios para paginacion y main para interfaz" />
     <option name="LAST_COMMIT_MESSAGE" value="cambios para paginacion y main para interfaz" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/app/SearchEngine/SearchEngineBuilder.cpp</url>
+          <line>58</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -81,21 +81,20 @@ int main(){
     while(active) {
         int input;
         std::cout<<"1. Siguiente pagina"<<std::endl;
-        std::cout<<"2. Siguiente pagina"<<std::endl;
+        std::cout<<"2. Anterior pagina"<<std::endl;
         std::cin >> input;
         switch (input) {
             case 1:
-                searchEngineBuilder.getNextPage();
+                searchEngineBuilder.NextPage();
                 for (auto movie : searchEngineBuilder.build()->get()) {
                     std::cout << movie->getTitle() << std::endl;
                 }
                 break;
             case 2:
-                searchEngineBuilder.getBeforePage();
+                searchEngineBuilder.PreviousPage();
                 for (auto movie : searchEngineBuilder.build()->get()) {
                     std::cout << movie->getTitle() << std::endl;
                 }
-
                 break;
             case 3:
                 active = false;

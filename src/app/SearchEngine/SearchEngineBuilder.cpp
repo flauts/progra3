@@ -59,7 +59,7 @@ std::vector<Movie*> mergeAndSort(const std::map<Movie*, int>& map1, const std::m
     return sortMapByValueDescending(mergedMap);
 }
 
-SearchEngine* SearchEngineBuilder::build() {
+SearchEngine * SearchEngineBuilder::build() {
     if(this->query.empty() and this->tags.empty()){
         throw std::runtime_error("Query and tag is empty");
     }
@@ -67,26 +67,18 @@ SearchEngine* SearchEngineBuilder::build() {
     auto set2 = SynopsisTree->search_movies_by_synopsy(query);
     auto set3 = TagsTree->search_movies_by_tag(tags);
 
-    movies = mergeAndSort(set1, set2, set3);
-    std::copy_n(movies.begin(), 5, searchEngine_->movies.begin());
+    searchEngine_->movies = mergeAndSort(set1, set2, set3);
+    searchEngine_->page = page;
     return searchEngine_;
 }
 
-SearchEngine* SearchEngineBuilder::getNextPage() {
+SearchEngineBuilder &SearchEngineBuilder::NextPage() {
     ++page;
-    for (int i = page*5; i < page*5+5; ++i) {
-        searchEngine_->movies[i] = movies[i];
-    }
-
-    return searchEngine_;
+    return *this;
 }
 
-SearchEngine* SearchEngineBuilder::getBeforePage() {
+SearchEngineBuilder &SearchEngineBuilder::PreviousPage() {
     --page;
-    for (int i = page*5; i < page*5+5; ++i) {
-        searchEngine_->movies[i] = movies[i];
-    }
-
-    return searchEngine_;
+    return *this;
 }
 

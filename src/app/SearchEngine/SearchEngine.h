@@ -10,9 +10,10 @@
 //Builder aplicar aca
 class SearchEngine {
     friend class SearchEngineBuilder;
-    std::array<Movie*,5> movies;
+    int page;
+    std::vector<Movie*> movies;
 public:
-    std::array<Movie*,5> get();
+    std::vector<Movie*> get();
     SearchEngine() = default;
     ~SearchEngine() = default;
 

@@ -8,18 +8,17 @@ private:
     TrieNode* TitleTree;
     TrieNode* SynopsisTree;
     TrieNode* TagsTree;
-    std::vector<Movie*> movies;
     std::string query;
     std::vector<std::string> tags;
     SearchEngine* searchEngine_ = new SearchEngine();
 public:
     SearchEngineBuilder& Query(const std::string& query);
     SearchEngineBuilder& Tags(const std::string& tags);
-    SearchEngine* build();
+    SearchEngineBuilder& NextPage();
+    SearchEngineBuilder& PreviousPage();
     SearchEngineBuilder(TrieNode *pNode, TrieNode *pNode1, TrieNode *pNode2);
-    SearchEngine *getNextPage();
 
-    SearchEngine *getBeforePage();
+    SearchEngine * build();
 };
 
 #endif //PROGRA3_SEARCHENGINEBUILDER_H
