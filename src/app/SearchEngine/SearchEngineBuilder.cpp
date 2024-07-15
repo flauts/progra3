@@ -1,27 +1,24 @@
 #include "SearchEngineBuilder.h"
 #include <stdexcept>
 #include <sstream>
-#include <fstream>
-#include <unordered_set>
-#include <algorithm>
 #include "../../tools/Utils.h"
 
-
-auto stopwords = Utils::loadStopwords("/home/jorughen/Documents/progra3/stopwords.txt");
+std::string stopwords_Path = R"(C:\Users\Badir\Documents\projects\Hopium\stopwords.txt)";
 
 SearchEngineBuilder &SearchEngineBuilder::Query(const std::string &query) {
-    std::stringstream ss(query);
-    std::string word;
-    std::string filteredQuery;
-    while (ss >> word) {
-        if (stopwords.find(word) == stopwords.end()) {
-            if (!filteredQuery.empty()) {
-                filteredQuery += " ";
-            }
-            filteredQuery += word;
+    auto stopwords = Utils::loadStopwords(stopwords_Path);
+    std::vector<std::string> words = Utils::splitString(query);
+    std::string filtered_query;
+
+    for(const auto& w: words) {
+        if (stopwords.find(w) != stopwords.end()) {
+            continue;
+        }else{
+            filtered_query+=w + " ";
         }
     }
-    searchEngine_->query = filteredQuery;
+    filtered_query.pop_back();
+    searchEngine_->query = filtered_query;
     return *this;
 }
 

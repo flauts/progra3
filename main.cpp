@@ -1,23 +1,20 @@
 #include <iostream>
 #include <fstream>
-#include "app/TriePrefix/TrieNode.h"
+#include "src/app/TriePrefix/TrieNode.h"
 #include <unordered_set>
-#include "app/Movie/Movie.h"
-#include "app/SearchEngine/SearchEngineBuilder.h"
-#include "tools/Utils.h"
-#include <thread>
+#include "src/app/Movie/Movie.h"
+#include "src/tools/Utils.h"
+#include "src/app/SearchEngine/SearchEngineBuilder.h"
 #include <vector>
-#include <omp.h>
-
 
 int main(){
-    auto* TrieTitle = new TrieNode();
-    auto* TrieSynopsis = new TrieNode();
+    auto* TrieData = new TrieNode();
     auto* TrieTags = new TrieNode();
     std::unordered_set<Movie*> movies;
 
+    SearchEngineBuilder searchEngineBuilder;
 
-    std::ifstream database("/home/jorughen/Documents/progra3/datos.csv");
+    std::ifstream database(R"(C:\Users\Badir\Documents\projects\Hopium\datos.csv)");
     if(!database.is_open()) {
         std::cerr << "Error opening file: " << std::strerror(errno) << std::endl;
         return 1;
@@ -35,21 +32,21 @@ int main(){
             std::vector<std::string> good_tags = new_movie->getTags();
             movies.insert(new_movie);
 
-                TrieSynopsis->insert_movies_data(synopsis, new_movie);
-                TrieTitle->insert_movies_data(title, new_movie);
-                TrieTags->insert_movies_data(tags, new_movie);
+            TrieData->insert_movies_data(synopsis, new_movie);
+            TrieData->insert_movies_data(title, new_movie);
+            TrieTags->insert_movies_data(tags, new_movie);
         }
     }
 
     // Antes del bucle, abre un archivo de texto en modo de escritura
-    std::ofstream outFile("/home/jorughen/Documents/progra3/tags.txt");
+    std::ofstream outFile(R"(C:\Users\Badir\Documents\projects\Hopium\tags.txt)");
     if (!outFile.is_open()) {
         std::cerr << "Error opening file for writing." << std::endl;
         return 1; // O manejar el error como prefieras
     }
 
 // Dentro del bucle, escribe en el archivo
-    for (auto movie : TrieTitle->search_movies_by_key("it")) {
+    for (auto movie : TrieData->search_movies_by_key("it")) {
         outFile << *movie.first << std::endl;
     }
 
@@ -57,20 +54,11 @@ int main(){
     outFile.close();
 
 
-
-
-
-
-    SearchEngineBuilder searchEngineBuilder;
-
-    SearchEngine* searchEngine = searchEngineBuilder.Query("whimsical").Tags("comedy, drama").build();
-
-
     for (auto movie : movies) {
         delete movie;
     }
 
-    delete TrieTitle;
+    delete TrieData;
 
     return 0;
 }

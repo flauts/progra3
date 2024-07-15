@@ -1,7 +1,7 @@
 #include "TrieNode.h"
 #include "../../tools/Utils.h"
 
-
+std::string stopwords_path = "C:\\Users\\Badir\\Documents\\projects\\Hopium\\stopwords.txt";
 
 TrieNode::TrieNode() {
     wordEnd = false;
@@ -58,14 +58,14 @@ std::vector<std::pair<Movie*,int>>  TrieNode::search_movies_by_key(const std::st
     return ordered_pairs;
 }
 
-auto stopwords2 = Utils::loadStopwords("/home/jorughen/Documents/progra3/stopwords.txt");
 
 void TrieNode::insert_movies_data(const std::string& key, Movie* mov) {
+    auto stopwords = Utils::loadStopwords(stopwords_path);
     std::vector<std::string> words = Utils::splitString(key);
     for (auto e: words) {
         e = Utils::to_ascii(e);
         TrieNode* currentNode = this;
-        if (stopwords2.find(e) != stopwords2.end()) {
+        if (stopwords.find(e) != stopwords.end()) {
             continue;
         }
         for(auto c: e) {
@@ -126,6 +126,7 @@ void TrieNode::serialize(std::ofstream& out) const {
         }
     }
 }
+
 
 TrieNode* TrieNode::deserialize(std::ifstream& in) {
     TrieNode* node = new TrieNode();
