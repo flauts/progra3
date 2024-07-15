@@ -3,6 +3,8 @@
 
 #include <string>
 #include <memory>
+#include <iostream>
+#include <unistd.h>  // For sleep
 
 class Command {
 public:
@@ -12,88 +14,106 @@ public:
     virtual std::unique_ptr<Command> clone() const = 0;
 };
 
-class Option1 : public Command {
+// Primary options
+class SearchOption : public Command {
 public:
     void execute() override;
-    std::string getText() const override { return "Option 1"; }
-    std::unique_ptr<Command> clone() const override { return std::make_unique<Option1>(*this); }
+    [[nodiscard]] std::string getText() const override { return "Search"; }
+    [[nodiscard]] std::unique_ptr<Command> clone() const override { return std::make_unique<SearchOption>(*this); }
 };
 
-class Option2 : public Command {
+class CheckBookmarksOption : public Command {
 public:
     void execute() override;
-    std::string getText() const override { return "Option 2"; }
-    std::unique_ptr<Command> clone() const override { return std::make_unique<Option2>(*this); }
+    [[nodiscard]] std::string getText() const override { return "Check bookmarks"; }
+    [[nodiscard]] std::unique_ptr<Command> clone() const override { return std::make_unique<CheckBookmarksOption>(*this); }
+};
+
+class SeeMoreOption : public Command {
+public:
+    void execute() override;
+    [[nodiscard]] std::string getText() const override { return "See more..."; }
+    [[nodiscard]] std::unique_ptr<Command> clone() const override { return std::make_unique<SeeMoreOption>(*this); }
 };
 
 class ExitOption : public Command {
 public:
     void execute() override;
-    std::string getText() const override { return "Exit"; }
-    std::unique_ptr<Command> clone() const override { return std::make_unique<ExitOption>(*this); }
+    [[nodiscard]] std::string getText() const override { return "Exit"; }
+    [[nodiscard]] std::unique_ptr<Command> clone() const override { return std::make_unique<ExitOption>(*this); }
 };
 
-class SubOption1 : public Command {
+// SubOptions for SearchOption
+class SearchByTagsSubOption : public Command {
 public:
     void execute() override;
-    std::string getText() const override { return "SubOption 1"; }
-    std::unique_ptr<Command> clone() const override { return std::make_unique<SubOption1>(*this); }
+    [[nodiscard]] std::string getText() const override { return "Search by Tags"; }
+    [[nodiscard]] std::unique_ptr<Command> clone() const override { return std::make_unique<SearchByTagsSubOption>(*this); }
 };
 
-class SubOption2 : public Command {
+class SearchByNameSubOption : public Command {
 public:
     void execute() override;
-    std::string getText() const override { return "SubOption 2"; }
-    std::unique_ptr<Command> clone() const override { return std::make_unique<SubOption2>(*this); }
+    [[nodiscard]] std::string getText() const override { return "Search by Name"; }
+    [[nodiscard]] std::unique_ptr<Command> clone() const override { return std::make_unique<SearchByNameSubOption>(*this); }
 };
 
-class SubOption3 : public Command {
+class SearchBySynopsisSubOption : public Command {
 public:
     void execute() override;
-    std::string getText() const override { return "SubOption 3"; }
-    std::unique_ptr<Command> clone() const override { return std::make_unique<SubOption3>(*this); }
+    [[nodiscard]] std::string getText() const override { return "Search by Synopsis"; }
+    [[nodiscard]] std::unique_ptr<Command> clone() const override { return std::make_unique<SearchBySynopsisSubOption>(*this); }
 };
 
-class SubOption4 : public Command {
+// SubOptions for CheckBookmarksOption
+class WatchLaterOption : public Command {
 public:
     void execute() override;
-    std::string getText() const override { return "SubOption 4"; }
-    std::unique_ptr<Command> clone() const override { return std::make_unique<SubOption4>(*this); }
+    [[nodiscard]] std::string getText() const override { return "Watch Later list"; }
+    [[nodiscard]] std::unique_ptr<Command> clone() const override { return std::make_unique<WatchLaterOption>(*this); }
 };
 
-class SubOption5 : public Command {
+class FavoritesOption : public Command {
 public:
     void execute() override;
-    std::string getText() const override { return "SubOption 5"; }
-    std::unique_ptr<Command> clone() const override { return std::make_unique<SubOption5>(*this); }
+    [[nodiscard]] std::string getText() const override { return "Favorites list"; }
+    [[nodiscard]] std::unique_ptr<Command> clone() const override { return std::make_unique<FavoritesOption>(*this); }
 };
 
-class SubSubOption1 : public Command {
+class WhatIsChavezNetOption : public Command {
 public:
     void execute() override;
-    std::string getText() const override { return "SubSubOption 1"; }
-    std::unique_ptr<Command> clone() const override { return std::make_unique<SubSubOption1>(*this); }
+    [[nodiscard]] std::string getText() const override { return "What is ChavezNet?"; }
+    [[nodiscard]] std::unique_ptr<Command> clone() const override { return std::make_unique<WhatIsChavezNetOption>(*this); }
 };
 
-class SubSubOption2 : public Command {
-public:
-    void execute() override;
-    std::string getText() const override { return "SubSubOption 2"; }
-    std::unique_ptr<Command> clone() const override { return std::make_unique<SubSubOption2>(*this); }
-};
-
-class SubSubOption5 : public Command {
-public:
-    void execute() override;
-    std::string getText() const override { return "SubSubOption 5"; }
-    std::unique_ptr<Command> clone() const override { return std::make_unique<SubSubOption5>(*this); }
-};
-
+// Return options for submenus
 class ReturnOption : public Command {
 public:
     void execute() override;
-    std::string getText() const override { return "Return"; }
-    std::unique_ptr<Command> clone() const override { return std::make_unique<ReturnOption>(*this); }
+    [[nodiscard]] std::string getText() const override { return "Return"; }
+    [[nodiscard]] std::unique_ptr<Command> clone() const override { return std::make_unique<ReturnOption>(*this); }
+};
+
+// Confirm option for general usage
+class ConfirmOption : public Command {
+public:
+    void execute() override;
+    [[nodiscard]] std::string getText() const override { return "Confirm"; }
+    [[nodiscard]] std::unique_ptr<Command> clone() const override { return std::make_unique<ConfirmOption>(*this); }
+};
+
+// Option for the DevMode engage
+class DevModeOption : public Command {
+public:
+    void execute() override;
+    [[nodiscard]] std::string getText() const override { return "Engage DevMode"; }
+    [[nodiscard]] std::unique_ptr<Command> clone() const override { return std::make_unique<DevModeOption>(*this); }
+
+private:
+    static bool authenticate();
+    void displayDebugInfo();
+    void showResourceUsage();
 };
 
 #endif // COMMAND_H

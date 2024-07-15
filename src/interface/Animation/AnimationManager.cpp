@@ -36,7 +36,9 @@ const std::vector<std::string> AnimationManager::ascii_art_small = {
     "                "
 };
 
-const std::string AnimationManager::ascii_art_text = "ChavezNet";
+const std::vector<std::string> AnimationManager::ascii_art_text = {
+    "ChavezNet"
+};
 
 AnimationManager& AnimationManager::getInstance() {
     static AnimationManager instance;
@@ -45,6 +47,11 @@ AnimationManager& AnimationManager::getInstance() {
 
 int AnimationManager::getAsciiArtHeight(const std::vector<std::string>& asciiArt) const {
     return static_cast<int>(asciiArt.size());
+}
+
+int AnimationManager::getAsciiArtWidth(const std::vector<std::string>& asciiArt) const {
+    if (asciiArt.empty()) return 0;
+    return static_cast<int>(asciiArt[0].size());
 }
 
 const std::vector<std::string>& AnimationManager::getAsciiArtLarge() const {
@@ -59,7 +66,7 @@ const std::vector<std::string>& AnimationManager::getAsciiArtSmall() const {
     return ascii_art_small;
 }
 
-const std::string& AnimationManager::getAsciiArtText() const {
+const std::vector<std::string>& AnimationManager::getAsciiArtText() const {
     return ascii_art_text;
 }
 
@@ -86,46 +93,85 @@ void AnimationManager::handleResizeDuringAnimation(const std::function<void()>& 
     signal(SIGWINCH, old_handler);
 }
 
-void AnimationManager::drawStaticAsciiArt() const {
-    const std::vector<std::string>* ascii_art;
-    if (LINES < 12 || COLS < 60) {
-        ascii_art = &ascii_art_small;
-    } else if (LINES < 16 || COLS < 80) {
-        ascii_art = &ascii_art_medium;
-    } else {
-        ascii_art = &ascii_art_large;
-    }
-
+void AnimationManager::drawStaticAsciiArtLarge() const {
+    const std::vector<std::string>& ascii_art = ascii_art_large;
     attron(COLOR_PAIR(3) | A_BOLD); // Color celeste después de la animación
-    for (int i = 0; i < static_cast<int>(ascii_art->size()); ++i) {
-        mvprintw(i + 1, (COLS - static_cast<int>(ascii_art->at(0).size())) / 2, ascii_art->at(i).c_str());
+    for (int i = 0; i < static_cast<int>(ascii_art.size()); ++i) {
+        mvprintw(i + 1, (COLS - static_cast<int>(ascii_art.at(0).size())) / 2, ascii_art.at(i).c_str());
     }
     attroff(COLOR_PAIR(3) | A_BOLD);
     refresh();
 }
 
-void AnimationManager::drawAdaptiveAsciiArt() const {
+void AnimationManager::drawStaticAsciiArtMedium() const {
+    const std::vector<std::string>& ascii_art = ascii_art_medium;
+    attron(COLOR_PAIR(3) | A_BOLD); // Color celeste después de la animación
+    for (int i = 0; i < static_cast<int>(ascii_art.size()); ++i) {
+        mvprintw(i + 1, (COLS - static_cast<int>(ascii_art.at(0).size())) / 2, ascii_art.at(i).c_str());
+    }
+    attroff(COLOR_PAIR(3) | A_BOLD);
+    refresh();
+}
+
+void AnimationManager::drawStaticAsciiArtSmall() const {
+    const std::vector<std::string>& ascii_art = ascii_art_small;
+    attron(COLOR_PAIR(3) | A_BOLD); // Color celeste después de la animación
+    for (int i = 0; i < static_cast<int>(ascii_art.size()); ++i) {
+        mvprintw(i + 1, (COLS - static_cast<int>(ascii_art.at(0).size())) / 2, ascii_art.at(i).c_str());
+    }
+    attroff(COLOR_PAIR(3) | A_BOLD);
+    refresh();
+}
+
+void AnimationManager::drawStaticAsciiArtText() const {
+    const std::vector<std::string>& ascii_art = ascii_art_text;
+    attron(COLOR_PAIR(3) | A_BOLD); // Color celeste después de la animación
+    for (int i = 0; i < static_cast<int>(ascii_art.size()); ++ i) {
+        mvprintw(i + 1, (COLS - static_cast<int>(ascii_art.at(0).size())) / 2, ascii_art.at(i).c_str());
+    }
+    attroff(COLOR_PAIR(3) | A_BOLD);
+    refresh();
+}
+
+void AnimationManager::drawStaticAsciiArt() const {
+    if (LINES <= getAsciiArtHeight(ascii_art_small) || COLS <= getAsciiArtWidth(ascii_art_small)) {
+        drawStaticAsciiArtText();
+    } else if (LINES <= getAsciiArtHeight(ascii_art_medium) || COLS <= getAsciiArtWidth(ascii_art_medium)) {
+        drawStaticAsciiArtSmall();
+    } else if (LINES <= getAsciiArtHeight(ascii_art_large) || COLS <= getAsciiArtWidth(ascii_art_large)) {
+        drawStaticAsciiArtMedium();
+    } else {
+        drawStaticAsciiArtLarge();
+    }
+}
+
+void AnimationManager::drawAdaptiveAsciiArtAnimation() const {
     handleResizeDuringAnimation([]() {
         attron(COLOR_PAIR(2) | A_BOLD); // Color morado durante la animación
 
         const std::vector<std::string>* ascii_art;
-        if (LINES < 12 || COLS < 60) {
-            ascii_art = &AnimationManager::getInstance().ascii_art_small;
-        } else if (LINES < 16 || COLS < 80) {
-            ascii_art = &AnimationManager::getInstance().ascii_art_medium;
+        if (LINES <= getInstance().getAsciiArtHeight(ascii_art_small) ||
+            COLS <= getInstance().getAsciiArtWidth(ascii_art_small)) {
+            ascii_art = &ascii_art_text;
+        } else if (LINES <= getInstance().getAsciiArtHeight(ascii_art_medium) ||
+                   COLS <= getInstance().getAsciiArtWidth(ascii_art_medium)) {
+            ascii_art = &ascii_art_small;
+        } else if (LINES <= getInstance().getAsciiArtHeight(ascii_art_large) ||
+                   COLS <= getInstance().getAsciiArtWidth(ascii_art_large)) {
+            ascii_art = &ascii_art_medium;
         } else {
-            ascii_art = &AnimationManager::getInstance().ascii_art_large;
+            ascii_art = &ascii_art_large;
         }
 
         for (int i = 0; i < static_cast<int>(ascii_art->size()); ++i) {
-            if (AnimationManager::resized) return;
+            if (resized) return;
             mvprintw(i + 1, (COLS - static_cast<int>(ascii_art->at(0).size())) / 2, ascii_art->at(i).c_str());
             refresh();
             std::this_thread::sleep_for(std::chrono::milliseconds(100)); // Pausa de 100ms para animación
         }
 
         attroff(COLOR_PAIR(2) | A_BOLD);
-        AnimationManager::getInstance().drawStaticAsciiArt();
+        getInstance().drawStaticAsciiArt();
     });
 }
 
@@ -207,7 +253,7 @@ void AnimationManager::drawBorderSnail() const {
             }
 
             if (x_start <= x_end) {
-                for (int i = y_end; i >= y_start; -- i) {
+                for (int i = y_end; i >= y_start; --i) {
                     if (AnimationManager::resized) return;
                     mvprintw(i, x_start, "|");
                     move(i, x_start); // Mover el cursor durante la animación

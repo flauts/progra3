@@ -42,13 +42,14 @@ Menu& Menu::getInstance() {
 [[noreturn]] void Menu::run() {
     if (firstTime) {
         AnimationManager::getInstance().drawBorderSnail();
-        AnimationManager::getInstance().drawAdaptiveAsciiArt();
+        AnimationManager::getInstance().drawAdaptiveAsciiArtAnimation();
         firstTime = false;
     }
 
     std::vector<std::unique_ptr<Command>> mainCommands;
-    mainCommands.push_back(std::make_unique<Option1>());
-    mainCommands.push_back(std::make_unique<Option2>());
+    mainCommands.push_back(std::make_unique<SearchOption>());
+    mainCommands.push_back(std::make_unique<CheckBookmarksOption>());
+    mainCommands.push_back(std::make_unique<SeeMoreOption>());
     mainCommands.push_back(std::make_unique<ExitOption>());
 
     setCommands(std::move(mainCommands));
