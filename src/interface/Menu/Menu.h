@@ -4,10 +4,10 @@
 #include <memory>
 #include <stack>
 #include <ncurses.h>
-#include "../Command/Command.h"
+#include "Command.h"
 #include "Memento.h"
-#include "Animation.h"
-#include <csignal>
+#include "AnimationManager.h"
+#include "../Drawer/MenuDrawer.h"
 #include <vector>
 
 class Menu {
@@ -25,7 +25,6 @@ private:
     void saveState();
     void restoreState();
     void drawMenu(int highlight) const;
-    void drawOptionBox(int y, int x, const std::string& text, bool highlight, int width) const;
     void processInput(int& choice);
 
     static Menu instance;
@@ -33,8 +32,11 @@ private:
     std::vector<std::unique_ptr<Command>> commands;
     std::stack<Memento> history;
     int highlight;
+    mutable bool isVertical; // Variable para almacenar la disposición del menú
 
-    friend ReturnOption;
+    MenuDrawer menuDrawer;  // Instancia de MenuDrawer
+
+    friend class ReturnOption; // Asegúrate de que ReturnOption pueda acceder a los métodos privados de Menu
 };
 
 #endif // MENU_H

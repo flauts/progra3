@@ -1,15 +1,9 @@
 #include "Command.h"
-#include "../Menu/Menu.h"
+#include "Menu.h"
 #include <iostream>
 #include <thread>
-#include <windows.h>
-#include <psapi.h>
-#include <iostream>
-#include <string>
-#include <vector>
-#include <memory>
-#include "Command.h"
-#include "Menu.h"
+//#include <windows.h> linux
+//#include <psapi.h>
 
 // Implementaciones de SearchOption
 void SearchOption::execute() {
@@ -60,11 +54,6 @@ void SearchBySynopsisSubOption::execute() {
     std::cout << "Executing Search by Synopsis" << std::endl;
 }
 
-// Implementaciones de ReturnSubOption
-void ReturnSubOption::execute() {
-    Menu::getInstance().restoreState();
-}
-
 // Implementaciones de WatchLaterOption
 void WatchLaterOption::execute() {
     std::cout << "Executing Watch Later Option" << std::endl;
@@ -90,60 +79,7 @@ void ConfirmOption::execute() {
     std::cout << "Confirming selection." << std::endl;
 }
 
-// = = = = = ADDITIONALLY FUNCTIONALITIES FOR DEVMODE = = = = =
-
-// Function to compare file times = = = = =
-long CompareFileTime(FILETIME time1, FILETIME time2) {
-    ULARGE_INTEGER a, b;
-    a.LowPart = time1.dwLowDateTime;
-    a.HighPart = time1.dwHighDateTime;
-
-    b.LowPart = time2.dwLowDateTime;
-    b.HighPart = time2.dwHighDateTime;
-
-    return b.QuadPart - a.QuadPart;
-}
-
-// Function to get CPU usage = = = = =
-float getCPUUsage() {
-    static FILETIME prevSysIdle, prevSysKernel, prevSysUser;
-    FILETIME sysIdle, sysKernel, sysUser;
-
-    if (!GetSystemTimes(&sysIdle, &sysKernel, &sysUser)) {
-        return -1.0f; // Error
-    }
-
-    if (prevSysIdle.dwLowDateTime != 0 && prevSysKernel.dwLowDateTime != 0 && prevSysUser.dwLowDateTime != 0) {
-        auto diffSysIdle = CompareFileTime(prevSysIdle, sysIdle);
-        auto diffSysKernel = CompareFileTime(prevSysKernel, sysKernel);
-        auto diffSysUser = CompareFileTime(prevSysUser, sysUser);
-
-        auto totalSys = diffSysKernel + diffSysUser;
-        return (totalSys - diffSysIdle) * 100.0f / totalSys;
-    }
-
-    prevSysIdle = sysIdle;
-    prevSysKernel = sysKernel;
-    prevSysUser = sysUser;
-
-    return -1.0f; // First call
-}
-
-// Function to get memory usage = = = = =
-float getMemoryUsage() {
-    MEMORYSTATUSEX memInfo;
-    memInfo.dwLength = sizeof(MEMORYSTATUSEX);
-    GlobalMemoryStatusEx(&memInfo);
-
-    DWORDLONG totalPhysMem = memInfo.ullTotalPhys;
-    DWORDLONG physMemUsed = memInfo.ullTotalPhys - memInfo.ullAvailPhys;
-
-    return physMemUsed / (float)totalPhysMem * 100.0f;
-}
-
-// = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-
-// Implementations of DevModeOption = = = = =
+// Implementaciones de DevModeOption
 void DevModeOption::execute() {
     std::cout << "Attempting to engage DevMode" << std::endl;
     if (authenticate()) {
@@ -178,8 +114,55 @@ void DevModeOption::displayDebugInfo() {
 
 void DevModeOption::showResourceUsage() {
     std::cout << "\n--- Resource Usage ---" << std::endl;
-    std::cout << "CPU Usage: " << getCPUUsage() << "%" << std::endl;
-    std::cout << "Memory Usage: " << getMemoryUsage() << "%" << std::endl;
+//    std::cout << "CPU Usage: " << getCPUUsage() << "%" << std::endl;
+//    std::cout << "Memory Usage: " << getMemoryUsage() << "%" << std::endl;
     std::cout << "Disk I/O: 1.2MB/s" << std::endl; // Dummy data for disk I/O
     // Add real resource usage metrics if available
+}
+
+// long CompareFileTime(FILETIME time1, FILETIME time2) {
+//  ULARGE_INTEGER a, b;
+//  a.LowPart = time1.dwLowDateTime;
+//  a.HighPart = time1.dwHighDateTime;
+
+//  b.LowPart = time2.dwLowDateTime;
+//  b.HighPart = time2.dwHighDateTime;
+
+//  return b.QuadPart - a.QuadPart;
+//}
+
+float getCPUUsage() {
+//  static FILETIME prevSysIdle, prevSysKernel, prevSysUser;
+//  FILETIME sysIdle, sysKernel, sysUser;
+
+//  if (!GetSystemTimes(&sysIdle, &sysKernel, &sysUser)) {
+        return -1.0f; // Error
+    }
+
+//  if (prevSysIdle.dwLowDateTime != 0 && prevSysKernel.dwLowDateTime != 0 && prevSysUser.dwLowDateTime != 0) {
+//      auto diffSysIdle = CompareFileTime(prevSysIdle, sysIdle);
+//      auto diffSysKernel = CompareFileTime(prevSysKernel, sysKernel);
+//      auto diffSysUser = CompareFileTime(prevSysUser, sysUser);
+
+//      auto totalSys = diffSysKernel + diffSysUser;
+//      return (totalSys - diffSysIdle) * 100.0f / totalSys;
+//  }
+
+//  prevSysIdle = sysIdle;
+//  prevSysKernel = sysKernel;
+//  prevSysUser = sysUser;
+
+//  return -1.0f; // First call
+//}
+
+float getMemoryUsage() {
+//    MEMORYSTATUSEX memInfo;
+//    memInfo.dwLength = sizeof(MEMORYSTATUSEX);
+//    GlobalMemoryStatusEx(&memInfo);
+
+//    DWORDLONG totalPhysMem = memInfo.ullTotalPhys;
+//    DWORDLONG physMemUsed = memInfo.ullTotalPhys - memInfo.ullAvailPhys;
+
+//    return physMemUsed / (float)totalPhysMem * 100.0f;
+    return 0.0f; // Dummy data
 }
