@@ -12,12 +12,19 @@ class SearchEngine {
     friend class SearchEngineBuilder;
     std::string query;
     std::vector<std::string> tags;
+    TrieNode* TitleTree;
+    TrieNode* SynopsisTree;
+    TrieNode* TagsTree;
 
 public:
     const std::string &getQuery() const;
     const std::vector<std::string> &getTags() const;
-    const std::vector<Movie*> execute();
+
+    std::vector<Movie*>  execute();
+    SearchEngine() = default;
+    SearchEngine(TrieNode* pNode, TrieNode* pNode1, TrieNode* pNode2);
     ~SearchEngine() = default;
+
 
 };
 

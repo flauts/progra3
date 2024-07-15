@@ -1,6 +1,7 @@
 #include "Utils.h"
 #include <codecvt>
 #include <locale>
+#include <map>
 
 std::unordered_set<std::string> Utils::loadStopwords(const std::string &filepath) {
         std::unordered_set<std::string> stopwords;
@@ -56,7 +57,8 @@ std::vector<std::string> Utils::formatTags(const std::string &tags) {
 }
 
 std::vector<std::string> Utils::splitString(const std::string &str) {
-    std::unordered_set<char> delimiters = {' ', ',', '.'};
+    std::unordered_set<char> delimiters = {' ', ',', '.',';','\n',
+                                           '\t', '\r', '\v', '\f'};
     std::vector<std::string> tokens;
         std::string token;
         std::stringstream ss(str);
@@ -116,6 +118,19 @@ std::vector<std::string>Utils::parseCSVLine(std::ifstream& file) {
     }
     return result;
 }
+
+std::map<Movie*, int> Utils::gather(std::map<Movie *, int> &set1, const std::map<Movie *, int> &set2) {
+    for (const auto& pair : set2) {
+        if (set1.find(pair.first) != set1.end()) {
+            set1[pair.first] += pair.second;
+        } else {
+            set1[pair.first] = pair.second;
+        }
+    }
+    return set1;
+}
+
+
 
 
 

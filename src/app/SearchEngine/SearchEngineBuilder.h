@@ -4,12 +4,16 @@
 
 class SearchEngineBuilder {
 private:
-    SearchEngine* searchEngine_ = new SearchEngine();
+    TrieNode* TitleTree;
+    TrieNode* SynopsisTree;
+    TrieNode* TagsTree;
+    SearchEngine* searchEngine_ = new SearchEngine(TitleTree, SynopsisTree, TagsTree);
 public:
     SearchEngineBuilder& Query(const std::string& query);
     SearchEngineBuilder& Tags(const std::string& tags);
     SearchEngine* build();
 
+    SearchEngineBuilder(TrieNode *pNode, TrieNode *pNode1, TrieNode *pNode2);
 };
 
 #endif //PROGRA3_SEARCHENGINEBUILDER_H

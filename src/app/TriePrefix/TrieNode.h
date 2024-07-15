@@ -13,23 +13,23 @@
 class TrieNodeVector;
 
 struct TrieNode {
-    TrieNode* childNode[37];
-    bool isTitle;
-    bool isTag;
+    TrieNode* childNode[37]{};
     TrieNode* movieNode;
-    std::mutex nodeMutex;
 
     TrieNode();
     virtual ~TrieNode() = default;
 
-    std::vector<std::pair<Movie*,int>> search_movies_by_key(const std::string& key, TrieNode* currentPastNode = nullptr);
-    void insert_movies_data(const std::string &key, Movie *mov);
+    void insert_movies_synopsis(const std::string &key, Movie *mov);
 
-    // Serialization method
-//    void serialize(std::ofstream& out) const;
+    void insert_movies_title(const std::string &key, Movie *mov);
 
-    // Deserialization method
-//    static TrieNode* deserialize(std::ifstream& in);
+    void insert_movies_tag(const std::vector<std::string>& tags, Movie *mov);
+
+    std::map<Movie *, int> search_movies_by_title(const std::string& key);
+
+    std::map<Movie *, int> search_movies_by_synopsy(const std::string &key);
+
+    std::map<Movie *, int> search_movies_by_tag(const std::vector<std::string> tags);
 };
 
 struct TrieNodeVector : public TrieNode {
