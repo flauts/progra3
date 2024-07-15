@@ -3,5 +3,7 @@
 CMakeLists.txt
 mpst_full_data.csv
 /.idea/workspace.xml
+output.txt
+tags.txt
 
 
