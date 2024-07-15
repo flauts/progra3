@@ -1,3 +1,4 @@
+// Animation.cpp
 #include "Animation.h"
 #include <ncurses.h>
 #include <thread>
@@ -84,6 +85,9 @@ void Animation::drawBorderSnail() {
 }
 
 void Animation::drawAsciiArt() {
+    // Desactivar la señal de redimensionamiento
+    auto old_handler = signal(SIGWINCH, SIG_IGN);
+
     attron(COLOR_PAIR(2) | A_BOLD); // Color morado durante la animación
     for (int i = 0; i < n_lines; ++i) {
         mvprintw(i + 1, (COLS - 52) / 2, ascii_art[i]);
@@ -91,14 +95,23 @@ void Animation::drawAsciiArt() {
         std::this_thread::sleep_for(std::chrono::milliseconds(100)); // Pausa de 100ms para animación
     }
     attroff(COLOR_PAIR(2) | A_BOLD);
+
+    // Restaurar la señal de redimensionamiento
+    signal(SIGWINCH, old_handler);
 }
 
 void Animation::drawStaticAsciiArt() {
+    // Desactivar la señal de redimensionamiento
+    auto old_handler = signal(SIGWINCH, SIG_IGN);
+
     attron(COLOR_PAIR(3) | A_BOLD); // Color celeste después de la animación
     for (int i = 0; i < n_lines; ++i) {
         mvprintw(i + 1, (COLS - 52) / 2, ascii_art[i]);
     }
     attroff(COLOR_PAIR(3) | A_BOLD);
+
+    // Restaurar la señal de redimensionamiento
+    signal(SIGWINCH, old_handler);
 }
 
 void Animation::drawStaticBorder() {

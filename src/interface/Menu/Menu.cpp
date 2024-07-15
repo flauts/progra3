@@ -44,6 +44,7 @@ Menu& Menu::getInstance() {
 }
 
 [[noreturn]] void Menu::run() {
+    int choice = 0;
 
     if (firstTime) {
         Animation::drawBorderSnail();
@@ -57,7 +58,7 @@ Menu& Menu::getInstance() {
     mainCommands.push_back(std::make_unique<ExitOption>());
 
     setCommands(std::move(mainCommands));
-    highlight = 0; // Resaltar la última opción al iniciar
+    highlight = static_cast<int>(commands.size()) - 1; // Resaltar la última opción al iniciar
 
     while (true) {
         drawMenu(highlight);
@@ -105,7 +106,7 @@ void Menu::drawMenu(int highlight) const {
     maxWidth += 4; // Espacio para los bordes
 
     int menuHeight = static_cast<int>(commands.size()) * 4;
-    int y = (LINES - menuHeight) / 2; // Centrar el menú verticalmente
+    int y = (LINES - (menuHeight + Animation::n_lines)) / 2 + Animation::n_lines; // Centrar el menú verticalmente teniendo en cuenta el alto del logo
 
     for (size_t i = 0; i < commands.size(); ++i) {
         drawOptionBox(y + static_cast<int>(i) * 4, (COLS - maxWidth) / 2, commands[i]->getText(), static_cast<int>(i) == highlight, maxWidth);
