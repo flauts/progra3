@@ -20,6 +20,7 @@ public:
     void drawStaticAsciiArtText() const;
     void drawAdaptiveAsciiArtAnimation() const;
     void drawBorderSnail() const;
+    void drawLoadingBar(int duration) const; // Nueva función para la barra de carga
 
     const std::vector<std::string>& getAsciiArtLarge() const;
     const std::vector<std::string>& getAsciiArtMedium() const;
@@ -41,6 +42,8 @@ private:
 
     static volatile sig_atomic_t resized;
     static std::function<void()> current_animation_func;
+    static float loading_progress; // Progreso de la barra de carga
+    static int loading_duration;   // Duración de la barra de carga
 };
 
 #endif // ANIMATIONMANAGER_H

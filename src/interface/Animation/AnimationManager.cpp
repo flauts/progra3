@@ -2,6 +2,8 @@
 
 volatile sig_atomic_t AnimationManager::resized = 0;
 std::function<void()> AnimationManager::current_animation_func;
+float AnimationManager::loading_progress = 0.0f;
+int AnimationManager::loading_duration = 0;
 
 const std::vector<std::string> AnimationManager::ascii_art_large = {
     "   _____ _                          _   _      _   ",
@@ -267,5 +269,39 @@ void AnimationManager::drawBorderSnail() const {
             }
         }
         attroff(COLOR_PAIR(6));
+    });
+}
+
+void AnimationManager::drawLoadingBar(int duration) const {
+    loading_duration = duration;
+    handleResizeDuringAnimation([]() {
+        int bar_width = COLS - 4;
+        int bar_start_x = 2;
+        int bar_y = LINES / 2;
+        int steps = 100;
+        int sleep_duration = (loading_duration * 1000) / steps;
+
+        attron(COLOR_PAIR(3) | A_BOLD);
+        for (int i = 0; i <= static_cast<int>(loading_progress * steps); ++i) {
+            if (resized) return;
+            clear();
+            mvprintw(bar_y - 2, (COLS - 10) / 2, "Loading...");
+            mvhline(bar_y, bar_start_x, ' ', bar_width);
+            mvhline(bar_y, bar_start_x, '=', static_cast<int>(loading_progress * bar_width));
+            mvprintw(bar_y + 2, (COLS - 20) / 2, "%3d%% Complete", static_cast<int>(loading_progress * 100));
+            refresh();
+        }
+        for (int i = static_cast<int>(loading_progress * steps); i <= steps; ++i) {
+            if (resized) return;
+            clear();
+            mvprintw(bar_y - 2, (COLS - 10) / 2, "Loading...");
+            mvhline(bar_y, bar_start_x, ' ', bar_width);
+            mvhline(bar_y, bar_start_x, '=', static_cast<int>(loading_progress * bar_width));
+            mvprintw(bar_y + 2, (COLS - 20) / 2, "%3d%% Complete", static_cast<int>(loading_progress * 100));
+            refresh();
+            loading_progress = static_cast<float>(i) / steps;
+            std::this_thread::sleep_for(std::chrono::milliseconds(sleep_duration));
+        }
+        attroff(COLOR_PAIR(3) | A_BOLD);
     });
 }
