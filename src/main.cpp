@@ -7,16 +7,13 @@
 #include "tools/Utils.h"
 #include <vector>
 #include <filesystem>
-#include "../interface/Menu/Menu.h"
 
 namespace fs = std::filesystem;
 
 int main(){
-
-
+    std::chrono::time_point<std::chrono::system_clock> t_inicio, t_final;
 
     fs::path projectDir = fs::absolute(fs::path(__FILE__).parent_path().parent_path());
-
     auto* TrieTitle = new TrieNode();
     auto* TrieSynopsis = new TrieNode();
     auto* TrieTags = new TrieNode();
@@ -36,11 +33,11 @@ int main(){
             std::string title = fields[1];
             std::string synopsis = fields[2];
             std::string tags = fields[3];
-            auto* new_movie = new Movie(id,title, synopsis, tags);
+            auto new_movie = new Movie(id,title, synopsis, tags);
             movies.insert(new_movie);
-            TrieSynopsis->insert_movies_synopsis(synopsis, new_movie);
+            TrieSynopsis->insert_movies_data(synopsis, new_movie);
             TrieTitle->insert_movies_title(title, new_movie);
-            TrieTags->insert_movies_synopsis(tags, new_movie);
+            TrieTags->insert_movies_data(tags, new_movie);
         }
     }
 
@@ -52,9 +49,9 @@ int main(){
 
     SearchEngineBuilder searchEngineBuilder(TrieTitle, TrieSynopsis, TrieTags);
 
+    t_inicio = std::chrono::high_resolution_clock::now();
 
-    auto pepe = searchEngineBuilder.Query("").
-            Tags("christian").
+    auto pepe = searchEngineBuilder.Query("Taxi driver").
             Tags("family").
             build()->execute();
 
@@ -64,6 +61,10 @@ int main(){
 
     outFile.close();
 
+    t_final = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> t = t_final - t_inicio;
+
+    std::cout << "Tiempo = " << t.count() << "ms." << std::endl;
 
     for (auto movie : movies) {
         delete movie;
