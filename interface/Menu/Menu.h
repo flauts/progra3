@@ -4,7 +4,7 @@
 #include <memory>
 #include <stack>
 #include <ncurses.h>
-#include "Command.h"
+#include "../Command/Command.h"
 #include "Memento.h"
 #include "Animation.h"
 #include <csignal>
