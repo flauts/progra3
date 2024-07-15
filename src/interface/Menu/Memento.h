@@ -8,14 +8,24 @@
 class Memento {
     friend class Menu; // Agregar la clase Menu como amiga
 public:
-    Memento(std::vector<std::unique_ptr<Command>> state) : state_(std::move(state)) {}
+    Memento(int highlight, std::vector<std::unique_ptr<Command>>&& commands)
+        : highlight_(highlight), commands_(std::move(commands)) {}
 
 private:
-    std::vector<std::unique_ptr<Command>> getState() {
-        return std::move(state_);
+    int getHighlight() const {
+        return highlight_;
     }
 
-    std::vector<std::unique_ptr<Command>> state_;
+    const std::vector<std::unique_ptr<Command>>& getCommands() const {
+        return commands_;
+    }
+
+    std::vector<std::unique_ptr<Command>> releaseCommands() {
+        return std::move(commands_);
+    }
+
+    int highlight_;
+    std::vector<std::unique_ptr<Command>> commands_;
 };
 
 #endif // MEMENTO_H
