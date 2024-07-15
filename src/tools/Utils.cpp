@@ -119,25 +119,25 @@ std::vector<std::string>Utils::parseCSVLine(std::ifstream& file) {
 
 
 
-void Utils::serializeTrie(const TrieNode *root, const std::string &filename) {
-    std::ofstream out(filename, std::ios::binary);
-    if (out.is_open()) {
-        root->serialize(out);
-        out.close();
-    } else {
-        std::cerr << "Unable to open file for writing: " << filename << std::endl;
-    }
-}
+//void Utils::serializeTrie(const TrieNode *root, const std::string &filename) {
+//    std::ofstream out(filename, std::ios::binary);
+//    if (out.is_open()) {
+//        root->serialize(out);
+//        out.close();
+//    } else {
+//        std::cerr << "Unable to open file for writing: " << filename << std::endl;
+//    }
+//}
 
-
-TrieNode* Utils::deserializeTrie(const std::string &filename) {
-    std::ifstream in(filename, std::ios::binary);
-    if (in.is_open()) {
-        TrieNode* root = TrieNode::deserialize(in);
-        in.close();
-        return root;
-    } else {
-        std::cerr << "Unable to open file for reading: " << filename << std::endl;
-        return nullptr;
-    }
-}
+//
+//TrieNode* Utils::deserializeTrie(const std::string &filename) {
+//    std::ifstream in(filename, std::ios::binary);
+//    if (in.is_open()) {
+//        TrieNode* root = TrieNode::deserialize(in);
+//        in.close();
+//        return root;
+//    } else {
+//        std::cerr << "Unable to open file for reading: " << filename << std::endl;
+//        return nullptr;
+//    }
+//}
