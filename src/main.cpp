@@ -1,4 +1,4 @@
-#include "interface/Menu/Menu.h"
+#include "Menu.h"
 
 int main() {
     Menu::getInstance().run();

@@ -1,42 +1,25 @@
 #include "Menu.h"
+#include "Animation.h"
 #include <ncurses.h>
 #include <csignal>
-#include <thread>
-#include <chrono>
+#include <vector>
+#include <stack>
+#include <memory>
+#include <algorithm>
 
 Menu Menu::instance;
 bool Menu::firstTime = true;
 
-const char* ascii_art[] = {
-    "   _____ _                          _   _      _   ",
-    "  / ____| |                        | \\ | |    | |  ",
-    " | |    | |___   __ ___   _____ ___|  \\| | ___| |_ ",
-    R"( | |    |  __ \ / _` \ \ / / _ \_  / . ` |/ _ \ __|)",
-    " | |____| |  | | (_| |\\ V /  __// /| |\\  |  __/ |_ ",
-    R"(  \_____|_|  |_|\__,_| \_/ \___/___|_| \_|\___|\__|)",
-    "                                                   ",
-    "                                                   "
-};
-
-constexpr int n_lines = std::size(ascii_art);
-const char* options[] = {
-    "1. Opcion 1",
-    "2. Opcion 2",
-    "3. Salir"
-};
-
-constexpr int n_options = std::size(options);
-
-Menu::Menu() {
+Menu::Menu() : highlight(0) {
     initscr();
     start_color(); // Inicializa el uso de colores
 
     init_pair(1, COLOR_WHITE, COLOR_BLACK); // Fondo negro, texto blanco
-    init_pair(2, COLOR_CYAN, COLOR_BLACK); // Texto cian brillante
-    init_pair(3, COLOR_MAGENTA, COLOR_BLACK); // Texto magenta brillante
+    init_pair(2, COLOR_MAGENTA, COLOR_BLACK); // Texto morado para la animacion
+    init_pair(3, COLOR_CYAN, COLOR_BLACK); // Texto celeste despues de la animacion
     init_pair(4, COLOR_GREEN, COLOR_BLACK); // Texto verde brillante para opciones
-    init_pair(5, COLOR_BLACK, COLOR_WHITE); // Fondo blanco, texto negro para selección
-    init_pair(6, COLOR_MAGENTA, COLOR_BLACK); // Texto magenta para el borde
+    init_pair(5, COLOR_BLACK, COLOR_WHITE); // Fondo blanco, texto negro para seleccion
+    init_pair(6, COLOR_MAGENTA, COLOR_BLACK); // Texto morado para el borde
 
     noecho();
     cbreak();
@@ -48,11 +31,8 @@ Menu::Menu() {
         endwin();
         refresh();
         clear();
-        drawMenu(0); // Ajustar aquí para llamar a la instancia correcta
+        Menu::getInstance().drawMenu(0);
     });
-
-    commands.push_back(make_unique<Option1>());
-    commands.push_back(make_unique<Option2>());
 }
 
 Menu::~Menu() {
@@ -63,208 +43,116 @@ Menu& Menu::getInstance() {
     return instance;
 }
 
-void Menu::drawOptionBox(int y, int x, const char* text, bool highlight) {
-    if (highlight) {
-        attron(COLOR_PAIR(5));
-    } else {
-        attron(COLOR_PAIR(4) | A_BOLD);
+[[noreturn]] void Menu::run() {
+
+    if (firstTime) {
+        Animation::drawBorderSnail();
+        Animation::drawAsciiArt();
+        firstTime = false;
     }
 
-    mvprintw(y, x, "+---------------+");
-    mvprintw(y + 1, x, "| %-13s |", text);
-    mvprintw(y + 2, x, "+---------------+");
+    std::vector<std::unique_ptr<Command>> mainCommands;
+    mainCommands.push_back(std::make_unique<Option1>());
+    mainCommands.push_back(std::make_unique<Option2>());
+    mainCommands.push_back(std::make_unique<ExitOption>());
 
-    if (highlight) {
-        attroff(COLOR_PAIR(5));
-    } else {
-        attroff(COLOR_PAIR(4) | A_BOLD);
+    setCommands(std::move(mainCommands));
+    highlight = 0; // Resaltar la última opción al iniciar
+
+    while (true) {
+        drawMenu(highlight);
+        processInput(highlight);
     }
 }
 
-void Menu::drawAsciiArt() {
-    attron(COLOR_PAIR(2) | A_BOLD);
-    for (int i = 0; i < n_lines; ++i) {
-        mvprintw(i + 1, (COLS - 52) / 2, ascii_art[i]);
-        refresh();
-        std::this_thread::sleep_for(std::chrono::milliseconds(100)); // Pausa de 100ms para animación
-    }
-    attroff(COLOR_PAIR(2) | A_BOLD);
+void Menu::setCommands(std::vector<std::unique_ptr<Command>> newCommands) {
+    saveState();
+    commands = std::move(newCommands);
+    highlight = 0; // Reset highlight to first option
 }
 
-void Menu::drawBorderSnail() {
-    attron(COLOR_PAIR(6)); // Usar color magenta para el borde
-
-    int x_start = 0;
-    int y_start = 0;
-    int x_end = COLS - 1;
-    int y_end = LINES - 1;
-
-    mvprintw(y_start, x_start, "+"); // Esquina superior izquierda
-    refresh();
-
-    while (x_start <= x_end && y_start <= y_end) {
-        for (int i = x_start + 1; i <= x_end; ++i) {
-            mvprintw(y_start, i, "-");
-            move(y_start, i); // Mover el cursor durante la animación
-            refresh();
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
-        }
-        mvprintw(y_start, x_end, "+"); // Esquina superior derecha
-        refresh();
-        y_start++;
-
-        for (int i = y_start; i <= y_end; ++i) {
-            mvprintw(i, x_end, "|");
-            move(i, x_end); // Mover el cursor durante la animación
-            refresh();
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
-        }
-        mvprintw(y_end, x_end, "+"); // Esquina inferior derecha
-        refresh();
-        x_end--;
-
-        if (y_start <= y_end) {
-            for (int i = x_end; i >= x_start; --i) {
-                mvprintw(y_end, i, "-");
-                move(y_end, i); // Mover el cursor durante la animación
-                refresh();
-                std::this_thread::sleep_for(std::chrono::milliseconds(10));
-            }
-            mvprintw(y_end, x_start, "+"); // Esquina inferior izquierda
-            refresh();
-            y_end--;
-        }
-
-        if (x_start <= x_end) {
-            for (int i = y_end; i >= y_start; --i) {
-                mvprintw(i, x_start, "|");
-                move(i, x_start); // Mover el cursor durante la animación
-                refresh();
-                std::this_thread::sleep_for(std::chrono::milliseconds(10));
-            }
-            if (y_start == 1) break; // Detener la animación al regresar a la esquina superior izquierda
-            mvprintw(y_start, x_start, "+"); // Esquina superior izquierda
-            refresh();
-            x_start++;
-        }
+void Menu::saveState() {
+    std::vector<std::unique_ptr<Command>> stateCopy;
+    for (auto& command : commands) {
+        stateCopy.push_back(command->clone());
     }
-    attroff(COLOR_PAIR(6));
+    history.push(Memento(std::move(stateCopy)));
 }
 
-void Menu::animateBackground() {
-    clear();
-    refresh();
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
-
-    // Asegurarse de que el borde sea consistente
-    drawBorderSnail();
-
-    // Mostrar el ASCII art línea por línea
-    drawAsciiArt();
-
-    int y = (LINES - (n_options * 4)) / 2 - 2; // Ajuste de posición vertical
-
-    for (int i = 0; i < n_options; ++i) {
-        drawOptionBox(y + i * 4, (COLS - 16) / 2, options[i], false);
-        refresh();
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+void Menu::restoreState() {
+    if (!history.empty()) {
+        commands = history.top().getState();
+        history.pop();
     }
-
-    move(LINES - 1, COLS - 1); // Mover el cursor al lado derecho durante la animación
-    refresh();
+    highlight = static_cast<int>(commands.size()) - 1; // Seleccionar la última opción por defecto
 }
 
-void Menu::drawMenu(const int highlight) {
+void Menu::drawMenu(int highlight) const {
     clear();
     bkgd(COLOR_PAIR(1));
 
-    attron(COLOR_PAIR(6)); // Usar color magenta para el borde
-
-    int x_start = 0;
-    int y_start = 0;
-    int x_end = COLS - 1;
-    int y_end = LINES - 1;
-
-    mvprintw(y_start, x_start, "+"); // Esquina superior izquierda
-    mvprintw(y_start, x_end, "+"); // Esquina superior derecha
-    mvprintw(y_end, x_start, "+"); // Esquina inferior izquierda
-    mvprintw(y_end, x_end, "+"); // Esquina inferior derecha
-
-    for (int i = x_start + 1; i <= x_end - 1; ++i) {
-        mvprintw(y_start, i, "-");
-        mvprintw(y_end, i, "-");
+    Animation::drawStaticBorder();
+    if (firstTime) {
+        Animation::drawAsciiArt();
+    } else {
+        Animation::drawStaticAsciiArt();
     }
 
-    for (int i = y_start + 1; i <= y_end - 1; ++i) {
-        mvprintw(i, x_start, "|");
-        mvprintw(i, x_end, "|");
+    int maxWidth = 0;
+    for (const auto& command : commands) {
+        maxWidth = std::max(maxWidth, static_cast<int>(command->getText().size()));
     }
-    attroff(COLOR_PAIR(6));
+    maxWidth += 4; // Espacio para los bordes
 
-    attron(COLOR_PAIR(2) | A_BOLD);
-    for (int i = 0; i < n_lines; ++i) {
-        mvprintw(i + 1, (COLS - 52) / 2, ascii_art[i]);
+    int menuHeight = static_cast<int>(commands.size()) * 4;
+    int y = (LINES - menuHeight) / 2; // Centrar el menú verticalmente
+
+    for (size_t i = 0; i < commands.size(); ++i) {
+        drawOptionBox(y + static_cast<int>(i) * 4, (COLS - maxWidth) / 2, commands[i]->getText(), static_cast<int>(i) == highlight, maxWidth);
     }
-    attroff(COLOR_PAIR(2) | A_BOLD);
 
-    int y = (LINES - (n_options * 4)) / 2 - 2; // Ajuste de posición vertical
-
-    for (int i = 0; i < n_options; ++i) {
-        drawOptionBox(y + i * 4, (COLS - 16) / 2, options[i], i == highlight);
-    }
+    // Mover el cursor a la última letra de la opción resaltada, desplazado una posición hacia la derecha
+    int padding = (maxWidth - static_cast<int>(commands[highlight]->getText().size()) - 2) / 2;
+    move(y + highlight * 4 + 1, (COLS - maxWidth) / 2 + padding + static_cast<int>(commands[highlight]->getText().size()) - 1 + 1);
 
     refresh();
 }
 
-void Menu::processInput(int& choice) const {
-    move((LINES - (n_options * 4)) / 2 - 1 + choice * 4, (COLS - 16) / 2 + 2);
-    switch (getch()) {
+void Menu::drawOptionBox(int y, int x, const std::string& text, bool highlight, int width) const {
+    int pair = highlight ? 5 : 4;
+
+    int padding = (width - static_cast<int>(text.size()) - 2) / 2;
+
+    attron(COLOR_PAIR(pair)); // Usar color adecuado para la opción (resaltada o no)
+    mvprintw(y, x, "+%s+", std::string(width - 2, '-').c_str());
+    mvprintw(y + 1, x, "|%s%s%s|", std::string(padding, ' ').c_str(), text.c_str(), std::string(width - text.size() - padding - 2, ' ').c_str());
+    mvprintw(y + 2, x, "+%s+", std::string(width - 2, '-').c_str());
+    attroff(COLOR_PAIR(pair));
+}
+
+void Menu::processInput(int& choice) {
+    int ch = getch();
+    switch (ch) {
         case KEY_UP:
         case KEY_LEFT:
             if (choice == 0) {
-                choice = n_options - 1;
+                choice = static_cast<int>(commands.size()) - 1;
             } else {
                 choice--;
             }
             break;
         case KEY_DOWN:
         case KEY_RIGHT:
-            if (choice == n_options - 1) {
+            if (choice == static_cast<int>(commands.size()) - 1) {
                 choice = 0;
             } else {
                 choice++;
             }
             break;
         case 10: // Enter key
-            switch (choice) {
-                case 0:
-                    commands[0]->execute();
-                    break;
-                case 1:
-                    commands[1]->execute();
-                    break;
-                case 2:
-                    endwin();
-                    exit(0);
-                default: break;
-            }
-            firstTime = true; // Permite la animación al regresar al menú
+            commands[choice]->execute();
             break;
-
-        default:; // No hacer nada
-    }
-}
-
-[[noreturn]] void Menu::run() const {
-    int choice = 0;
-
-    if (firstTime) {
-        animateBackground();
-        firstTime = false;
-    }
-
-    while (true) {
-        drawMenu(choice);
-        processInput(choice);
+        default:
+            break;
     }
 }
