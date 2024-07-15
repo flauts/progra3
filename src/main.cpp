@@ -10,6 +10,15 @@
 
 namespace fs = std::filesystem;
 
+void moviePage(Movie& movie){
+    std::cout<<"Titulo: "<<movie.getTitle()<<std::endl;
+    std::cout<<"Sinopsis: "<<movie.getSynopsis()<<std::endl;
+    std::cout<<"Tags: "<<movie.getTags()<<std::endl;
+    std::cout<<"1. Ver mas"<<std::endl;
+    std::cout<<"2. Volver"<<std::endl;
+
+}
+
 int main(){
     fs::path projectDir = fs::absolute(fs::path(__FILE__).parent_path().parent_path());
 
@@ -62,49 +71,52 @@ int main(){
             }
             case 3:
                 std::cout<<"buscando"<<std::endl;
+
                 active = false;
                 break;
-
         }
     }
-//    std::ofstream outFile(projectDir/"tags.txt");
-//    if (!outFile.is_open()) {
-//        std::cerr << "Error opening file for writing." << std::endl;
-//        return 1; // O manejar el error como prefieras
-//    }
-
-    for (auto movie : searchEngineBuilder.build()->get()) {
-        std::cout << movie->getTitle() << std::endl;
-    }
-
     active = true;
     while(active) {
+        std::vector<Movie*> movie_list = searchEngineBuilder.build()->get();
+        for(int i = 1; i <= 5;i++){
+            std::cout<<i<<". "<<movie_list[i-1]->getTitle()<<std::endl;
+        }
+        std::cout<<"6. Siguiente pagina"<<std::endl;
+        std::cout<<"7. Anterior pagina"<<std::endl;
         int input;
-        std::cout<<"1. Siguiente pagina"<<std::endl;
-        std::cout<<"2. Anterior pagina"<<std::endl;
         std::cin >> input;
+        std::cin.ignore();
         switch (input) {
             case 1:
-                searchEngineBuilder.NextPage();
-                for (auto movie : searchEngineBuilder.build()->get()) {
-                    std::cout << movie->getTitle() << std::endl;
-                }
+                std::cout<<*movie_list[input-1]<<std::endl;
                 break;
             case 2:
-                searchEngineBuilder.PreviousPage();
-                for (auto movie : searchEngineBuilder.build()->get()) {
-                    std::cout << movie->getTitle() << std::endl;
-                }
+                std::cout<<*movie_list[input-1]<<std::endl;
                 break;
             case 3:
+                std::cout<<*movie_list[input-1]<<std::endl;
+
+                break;
+            case 4:
+                std::cout<<*movie_list[input-1]<<std::endl;
+                break;
+            case 5:
+                std::cout<<*movie_list[input-1]<<std::endl;
+                break;
+            case 6:{
+                searchEngineBuilder.NextPage();
+                break;
+            }
+            case 7: {
+                searchEngineBuilder.PreviousPage();
+                break;
+            }
+            case 8:
                 active = false;
                 break;
         }
     }
-
-//    outFile.close();
-
-
     for (auto movie : movies) {
         delete movie;
     }

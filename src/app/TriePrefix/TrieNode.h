@@ -29,7 +29,7 @@ struct TrieNode {
 
     std::map<Movie *, int> search_movies_by_synopsy(const std::string &key);
 
-    std::map<Movie *, int> search_movies_by_tag(const std::vector<std::string> tags);
+    std::map<Movie *, int> search_movies_by_tag(const std::vector<std::string>& tags);
 };
 
 struct TrieNodeVector : public TrieNode {

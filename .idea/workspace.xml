@@ -22,10 +22,6 @@
   <component name="ChangeListManager">
     <list default="true" id="5f9d1094-4539-498b-93f6-42c4755f0ca2" name="Changes" comment="cambios para paginacion y main para interfaz">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/SearchEngine/SearchEngine.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/SearchEngine/SearchEngine.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/SearchEngine/SearchEngine.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/SearchEngine/SearchEngine.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/SearchEngine/SearchEngineBuilder.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/SearchEngine/SearchEngineBuilder.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/SearchEngine/SearchEngineBuilder.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/SearchEngine/SearchEngineBuilder.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -73,6 +69,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
+    "ToolWindowGitHub Copilot Chat.ShowToolbar": "false",
     "WebServerToolWindowFactoryState": "false",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
