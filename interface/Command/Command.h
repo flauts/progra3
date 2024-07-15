@@ -4,6 +4,7 @@
 #include <string>
 #include <memory>
 #include <iostream>
+#include <unistd.h>  // For sleep
 
 class Command {
 public:
@@ -87,14 +88,6 @@ public:
     [[nodiscard]] std::unique_ptr<Command> clone() const override { return std::make_unique<FavoritesOption>(*this); }
 };
 
-// SubOptions for SeeMoreOption = = = = =
-class DevModeOption : public Command {
-public:
-    void execute() override { std::cout << "Executing DevMode Option" << std::endl; }
-    [[nodiscard]] std::string getText() const override { return "DevMode"; }
-    [[nodiscard]] std::unique_ptr<Command> clone() const override { return std::make_unique<DevModeOption>(*this); }
-};
-
 class WhatIsChavezNetOption : public Command {
 public:
     void execute() override { std::cout << "Executing What is ChavezNet Option" << std::endl; }
@@ -114,8 +107,21 @@ public:
 class ConfirmOption : public Command {
 public:
     void execute() override { std::cout << "Confirmation command Menu" << std::endl; }
-    [[nodiscard]] std::string getText() const override { return "Return"; }
+    [[nodiscard]] std::string getText() const override { return "Confirm"; }
     [[nodiscard]] std::unique_ptr<Command> clone() const override { return std::make_unique<ConfirmOption>(*this); }
+};
+
+// Option for the DevMode engage = = = = =
+class DevModeOption : public Command {
+public:
+    void execute() override;
+    [[nodiscard]] std::string getText() const override { return "Engage DevMode"; }
+    [[nodiscard]] std::unique_ptr<Command> clone() const override { return std::make_unique<DevModeOption>(*this); }
+
+private:
+    static bool authenticate();
+    void displayDebugInfo();
+    void showResourceUsage();
 };
 
 #endif // COMMAND_H

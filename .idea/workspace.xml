@@ -23,10 +23,15 @@
   <component name="ChangeListManager">
     <list default="true" id="5f9d1094-4539-498b-93f6-42c4755f0ca2" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/src/app/TriePrefix/TrieNode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/TriePrefix/TrieNode.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/TriePrefix/TrieNode.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/TriePrefix/TrieNode.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tags.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tags.txt" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/interface/Command/Command.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/interface/Command/Command.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interface/Command/Command.h" beforeDir="false" afterPath="$PROJECT_DIR$/interface/Command/Command.h" afterDir="false" />
+>>>>>>> b313ac78fb1f692b6371a0fc157b829a9c9f918d
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
