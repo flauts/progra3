@@ -14,7 +14,6 @@ namespace fs = std::filesystem;
 
 int main(){
     fs::path projectDir = fs::absolute(fs::path(__FILE__).parent_path().parent_path());
-    std::cout << projectDir << std::endl;
 
     auto* TrieData = new TrieNode();
     auto* TrieTags = new TrieNode();

@@ -1,5 +1,6 @@
 #include "TrieNode.h"
 #include "../../tools/Utils.h"
+namespace fs = std::filesystem;
 
 
 
@@ -59,7 +60,8 @@ std::vector<std::pair<Movie*,int>>  TrieNode::search_movies_by_key(const std::st
 
 
 void TrieNode::insert_movies_data(const std::string& key, Movie* mov) {
-    auto stopwords = Utils::loadStopwords("C:\\Users\\flauta\\progra3\\proyecto\\progra3\\stopwords.txt");
+    fs::path projectDir = fs::absolute(fs::path(__FILE__).parent_path().parent_path().parent_path().parent_path());
+    auto stopwords = Utils::loadStopwords(projectDir.string()+"/stopwords.txt");
     std::vector<std::string> words = Utils::splitString(key);
     for (auto e: words) {
         e = Utils::cleanString(e);

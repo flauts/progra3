@@ -21,13 +21,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5f9d1094-4539-498b-93f6-42c4755f0ca2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/TriePrefix/TrieNode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/TriePrefix/TrieNode.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/TriePrefix/TrieNode.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/TriePrefix/TrieNode.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tools/Utils.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/tools/Utils.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tools/Utils.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/tools/Utils.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tags.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tags.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -136,6 +131,11 @@
           <url>file://$PROJECT_DIR$/src/app/SearchEngine/SearchEngineBuilder.cpp</url>
           <line>9</line>
           <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/app/TriePrefix/TrieNode.cpp</url>
+          <line>64</line>
+          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
