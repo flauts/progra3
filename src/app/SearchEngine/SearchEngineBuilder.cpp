@@ -6,34 +6,81 @@
 namespace fs = std::filesystem;
 
 SearchEngineBuilder &SearchEngineBuilder::Query(const std::string &query) {
-    if(!searchEngine_->getQuery().contains(query)){
-        searchEngine_->query="";
-    }
-    searchEngine_->query += query;
+    this->query = query;
     return *this;
 }
-
-
 
 SearchEngineBuilder &SearchEngineBuilder::Tags(const std::string &tags) {
-    std::stringstream ss(tags);
-    std::string t;
-    char delimiter = ',';
-    while (getline(ss, t, delimiter)) {
-        searchEngine_->tags.push_back(t);
-    }
+    this->tags = Utils::splitString(tags);
     return *this;
-}
-
-SearchEngine *SearchEngineBuilder::build() {
-    if(searchEngine_->query.empty() and searchEngine_->tags.empty()){
-        throw std::runtime_error("Query is empty");
-    }
-    return searchEngine_;
 }
 
 SearchEngineBuilder::SearchEngineBuilder(TrieNode *pNode, TrieNode *pNode1, TrieNode *pNode2) {
-    searchEngine_->TitleTree = pNode;
-    searchEngine_->SynopsisTree = pNode1;
-    searchEngine_->TagsTree = pNode2;
+    this->TitleTree = pNode;
+    this->SynopsisTree = pNode1;
+    this->TagsTree = pNode2;
 }
+
+std::map<Movie*, int> mergeMaps(const std::map<Movie*, int>& map1, const std::map<Movie*, int>& map2, const std::map<Movie*, int>& map3) {
+    std::map<Movie*, int> result;
+    if(!map1.empty()){
+        result = map1;
+        for (const auto& pair : map2) {
+            result[pair.first] += pair.second;
+        }
+
+        for (const auto& pair : map3) {
+            result[pair.first] += pair.second;
+        }
+    }else{
+        result = map3;
+    }
+
+    return result;
+}
+
+std::vector<Movie*> sortMapByValueDescending(const std::map<Movie*, int>& map) {
+    std::vector<std::pair<Movie*, int>> vec(map.begin(), map.end());
+
+    std::sort(vec.begin(), vec.end(), [](const std::pair<Movie*, int>& a, const std::pair<Movie*, int>& b) {
+        return b.second < a.second;
+    });
+
+    std::vector<Movie*> sortedKeys;
+    for (const auto& pair : vec) {
+        sortedKeys.push_back(pair.first);
+    }
+
+    return sortedKeys;
+}
+
+std::vector<Movie*> mergeAndSort(const std::map<Movie*, int>& map1, const std::map<Movie*, int>& map2, const std::map<Movie*, int>& map3) {
+    std::map<Movie*, int> mergedMap = mergeMaps(map1, map2, map3);
+    return sortMapByValueDescending(mergedMap);
+}
+
+SearchEngine* SearchEngineBuilder::build() {
+    if(this->query.empty() and this->tags.empty()){
+        throw std::runtime_error("Query and tag is empty");
+    }
+    auto set1 = TitleTree->search_movies_by_title(query);
+    auto set2 = SynopsisTree->search_movies_by_synopsy(query);
+    auto set3 = TagsTree->search_movies_by_tag(tags);
+
+    movies = mergeAndSort(set1, set2, set3);
+    std::copy_n(movies.begin(), 5, searchEngine_->movies.begin());
+    return searchEngine_;
+}
+
+SearchEngine* SearchEngineBuilder::getNextPage() {
+    page++;
+    std::copy_n(movies.begin() + page*5, 5, searchEngine_->movies.begin());
+    return searchEngine_;
+}
+
+SearchEngine* SearchEngineBuilder::getBeforePage() {
+    page--;
+    std::copy_n(movies.begin() + page*5, 5, searchEngine_->movies.begin());
+    return searchEngine_;
+}
+

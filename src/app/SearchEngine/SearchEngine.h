@@ -5,24 +5,15 @@
 #include <vector>
 #include "../Movie/Movie.h"
 #include "../TriePrefix/TrieNode.h"
-
+#include <array>
 
 //Builder aplicar aca
 class SearchEngine {
     friend class SearchEngineBuilder;
-    std::string query;
-    std::vector<std::string> tags;
-    TrieNode* TitleTree;
-    TrieNode* SynopsisTree;
-    TrieNode* TagsTree;
-
+    std::array<Movie*,5> movies;
 public:
-    const std::string &getQuery() const;
-    const std::vector<std::string> &getTags() const;
-
-    std::vector<Movie*>  execute();
+    std::array<Movie*,5> get();
     SearchEngine() = default;
-    SearchEngine(TrieNode* pNode, TrieNode* pNode1, TrieNode* pNode2);
     ~SearchEngine() = default;
 
 
