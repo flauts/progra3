@@ -92,7 +92,7 @@ class DevModeOption : public Command {
 public:
     void execute() override { std::cout << "Executing DevMode Option" << std::endl; }
     [[nodiscard]] std::string getText() const override { return "DevMode"; }
-    std::unique_ptr<Command> clone() const override { return std::make_unique<DevModeOption>(*this); }
+    [[nodiscard]] std::unique_ptr<Command> clone() const override { return std::make_unique<DevModeOption>(*this); }
 };
 
 class WhatIsChavezNetOption : public Command {
@@ -108,6 +108,14 @@ public:
     void execute() override { std::cout << "Returning to Previous Menu" << std::endl; }
     [[nodiscard]] std::string getText() const override { return "Return"; }
     [[nodiscard]] std::unique_ptr<Command> clone() const override { return std::make_unique<ReturnOption>(*this); }
+};
+
+// Confirm option for general usage = = = = =
+class ConfirmOption : public Command {
+public:
+    void execute() override { std::cout << "Confirmation command Menu" << std::endl; }
+    [[nodiscard]] std::string getText() const override { return "Return"; }
+    [[nodiscard]] std::unique_ptr<Command> clone() const override { return std::make_unique<ConfirmOption>(*this); }
 };
 
 #endif // COMMAND_H

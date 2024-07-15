@@ -81,3 +81,8 @@ void ReturnOption::execute() {
     Menu::getInstance().restoreState();
 }
 
+// Implementaciones de ConfirmOption
+void ConfirmOption::execute() {
+    std::cout << "Confirming selection." << std::endl;
+}
+
