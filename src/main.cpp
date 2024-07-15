@@ -10,8 +10,6 @@
 
 namespace fs = std::filesystem;
 
-
-
 int main(){
     fs::path projectDir = fs::absolute(fs::path(__FILE__).parent_path().parent_path());
 
@@ -51,9 +49,9 @@ int main(){
     SearchEngineBuilder searchEngineBuilder(TrieTitle, TrieSynopsis, TrieTags);
 
 
-    auto pepe = searchEngineBuilder.Query("Walter White").
-            Tags("romance").
-            Tags("comedy").
+    auto pepe = searchEngineBuilder.Query("").
+            Tags("christian").
+            Tags("family").
             build()->execute();
 
     for (auto movie : pepe) {

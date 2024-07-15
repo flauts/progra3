@@ -16,17 +16,18 @@ SearchEngine::SearchEngine(TrieNode *pNode, TrieNode *pNode1, TrieNode *pNode2) 
 }
 
 std::map<Movie*, int> mergeMaps(const std::map<Movie*, int>& map1, const std::map<Movie*, int>& map2, const std::map<Movie*, int>& map3) {
-    std::map<Movie*, int> result = map1;
-
-    if(map1.empty()){
-        return result;
-    }
+    std::map<Movie*, int> result;
+    if(!map1.empty()){
+    result = map1;
     for (const auto& pair : map2) {
         result[pair.first] += pair.second;
     }
 
     for (const auto& pair : map3) {
         result[pair.first] += pair.second;
+        }
+    }else{
+        result = map3;
     }
 
     return result;
