@@ -58,7 +58,10 @@ std::vector<std::pair<Movie*,int>>  TrieNode::search_movies_by_key(const std::st
     return ordered_pairs;
 }
 
-auto stopwords2 = Utils::loadStopwords("/home/jorughen/Documents/progra3/stopwords.txt");
+namespace fs = std::filesystem;
+fs::path projectDir = fs::absolute(fs::path(__FILE__).parent_path().parent_path());
+
+auto stopwords2 = Utils::loadStopwords(projectDir/"stopwords.txt");
 
 void TrieNode::insert_movies_data(const std::string& key, Movie* mov) {
     std::vector<std::string> words = Utils::splitString(key);

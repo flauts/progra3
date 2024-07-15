@@ -6,8 +6,10 @@
 #include <algorithm>
 #include "../../tools/Utils.h"
 
+namespace fs = std::filesystem;
+fs::path projectDir = fs::absolute(fs::path(__FILE__).parent_path().parent_path());
 
-auto stopwords = Utils::loadStopwords("/home/jorughen/Documents/progra3/stopwords.txt");
+auto stopwords = Utils::loadStopwords(projectDir/"stopwords.txt");
 
 SearchEngineBuilder &SearchEngineBuilder::Query(const std::string &query) {
     std::stringstream ss(query);

@@ -8,16 +8,23 @@
 #include <thread>
 #include <vector>
 #include <omp.h>
+#include <chrono>
+#include <filesystem>
+
 
 
 int main(){
+    namespace fs = std::filesystem;
+    fs::path projectDir = fs::absolute(fs::path(__FILE__).parent_path().parent_path());
+    std::cout << projectDir << std::endl;
+
     auto* TrieTitle = new TrieNode();
     auto* TrieSynopsis = new TrieNode();
     auto* TrieTags = new TrieNode();
     std::unordered_set<Movie*> movies;
 
 
-    std::ifstream database("/home/jorughen/Documents/progra3/datos.csv");
+    std::ifstream database(projectDir/"datos.csv");
     if(!database.is_open()) {
         std::cerr << "Error opening file: " << std::strerror(errno) << std::endl;
         return 1;
@@ -31,30 +38,33 @@ int main(){
             std::string tags = fields[3];
 
             std::string cleanedTitle = Utils::cleanString(title);
-            auto* new_movie = new Movie(id,title, synopsis, tags);
-            std::vector<std::string> good_tags = new_movie->getTags();
+            auto* new_movie = new Movie(id, title, synopsis, tags);
             movies.insert(new_movie);
 
-                TrieSynopsis->insert_movies_data(synopsis, new_movie);
-                TrieTitle->insert_movies_data(title, new_movie);
-                TrieTags->insert_movies_data(tags, new_movie);
+            // Crear e iniciar los hilos
+            TrieTitle->insert_movies_data(cleanedTitle, new_movie);
+            TrieSynopsis->insert_movies_data(synopsis, new_movie);
+            TrieTags->insert_movies_data(tags, new_movie); 
+
         }
     }
 
+
     // Antes del bucle, abre un archivo de texto en modo de escritura
-    std::ofstream outFile("/home/jorughen/Documents/progra3/tags.txt");
+    std::ofstream outFile(projectDir/"tags.txt");
     if (!outFile.is_open()) {
         std::cerr << "Error opening file for writing." << std::endl;
         return 1; // O manejar el error como prefieras
     }
 
 // Dentro del bucle, escribe en el archivo
-    for (auto movie : TrieTitle->search_movies_by_key("it")) {
+    for (auto movie : TrieTags->search_movies_by_key("Horror")) {
         outFile << *movie.first << std::endl;
     }
 
 // Después del bucle, cierra el archivo
     outFile.close();
+
 
 
 
@@ -71,6 +81,9 @@ int main(){
     }
 
     delete TrieTitle;
+    delete TrieSynopsis;
+    delete TrieTags;
+
 
     return 0;
 }
