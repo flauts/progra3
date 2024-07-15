@@ -1,5 +1,5 @@
 #include "Command.h"
-#include "Menu.h"
+#include "../Menu/Menu.h"
 #include <iostream>
 
 // Implementaciones de SearchOption
