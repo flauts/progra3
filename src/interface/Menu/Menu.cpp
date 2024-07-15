@@ -31,7 +31,7 @@ Menu::Menu() : highlight(0) {
         endwin();
         refresh();
         clear();
-        Menu::getInstance().drawMenu(0);
+        getInstance().drawMenu(0);
     });
 }
 
@@ -44,7 +44,6 @@ Menu& Menu::getInstance() {
 }
 
 [[noreturn]] void Menu::run() {
-    int choice = 0;
 
     if (firstTime) {
         Animation::drawBorderSnail();
@@ -61,6 +60,9 @@ Menu& Menu::getInstance() {
     highlight = static_cast<int>(commands.size()) - 1; // Resaltar la última opción al iniciar
 
     while (true) {
+        endwin();
+        refresh();
+        clear();
         drawMenu(highlight);
         processInput(highlight);
     }
