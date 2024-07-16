@@ -39,3 +39,7 @@ std::ostream &operator<<(std::ostream &os, const Movie &movie) {
     os<<"\n";
     return os;
 }
+
+const std::string &Movie::getId() const {
+    return id;
+}

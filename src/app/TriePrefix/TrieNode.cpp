@@ -160,7 +160,7 @@ void TrieNode::insert_movies_synopsis(const std::string& key, Movie* mov) {
     }
 }
 
-void TrieNode::insert_movies_title(const std::string& key, Movie* mov) {
+void TrieNode::insert_movies_important(const std::string& key, Movie* mov) {
     std::vector<std::string> words = Utils::splitString(key);
     TrieNode* currentNode;
     for (auto e: words) {
@@ -190,7 +190,5 @@ void TrieNode::insert_movies_title(const std::string& key, Movie* mov) {
         }
     }
 }
-
-
 
 TrieNodeVector::TrieNodeVector(const std::unordered_set<Movie *> &vectorPelis) : vectorPelis(vectorPelis) {}

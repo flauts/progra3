@@ -21,7 +21,7 @@ struct TrieNode {
 
     void insert_movies_synopsis(const std::string &key, Movie *mov);
 
-    void insert_movies_title(const std::string &key, Movie *mov);
+    void insert_movies_important(const std::string &key, Movie *mov);
 
     void insert_movies_tag(const std::vector<std::string>& tags, Movie *mov);
 

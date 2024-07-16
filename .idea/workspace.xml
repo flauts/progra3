@@ -21,7 +21,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5f9d1094-4539-498b-93f6-42c4755f0ca2" name="Changes" comment="cambios para paginacion y main para interfaz">
+      <change afterPath="$PROJECT_DIR$/liked_movies.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/watch_later.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/Movie/Movie.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/Movie/Movie.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/Movie/Movie.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/Movie/Movie.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/TriePrefix/TrieNode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/TriePrefix/TrieNode.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/TriePrefix/TrieNode.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/TriePrefix/TrieNode.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -87,6 +93,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\flauta\CLionProjects\progra31\progra3" />
       <recent name="C:\Users\flauta\CLionProjects\progra31\progra3\src" />
       <recent name="C:\Users\flauta\progra3\proyecto\progra3\src\app" />
       <recent name="C:\Users\flauta\progra3\proyecto\progra3\src\app\Movie" />
@@ -157,8 +164,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/app/SearchEngine/SearchEngineBuilder.cpp</url>
-          <line>58</line>
-          <option name="timeStamp" value="1" />
+          <line>23</line>
+          <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

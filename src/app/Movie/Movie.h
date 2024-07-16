@@ -17,6 +17,8 @@ public:
     Movie() = default;
     Movie(std::string id,std::string  title, std::string  synopsis, const std::string& tags);
 
+    const std::string &getId() const;
+
     std::vector<std::string> getTags() const;
 
     const std::string &getSynopsis() const;

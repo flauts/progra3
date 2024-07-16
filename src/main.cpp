@@ -10,21 +10,198 @@
 
 namespace fs = std::filesystem;
 
+fs::path projectDir = fs::absolute(fs::path(__FILE__).parent_path().parent_path());
+
+
+
+void writeWatchLaterMovieToFile(const Movie& movie) {
+    std::ofstream file(projectDir/"watch_later.txt", std::ios::app); // Open in append mode
+    if(file.is_open()) {
+        file << movie.getId() << std::endl;
+    }
+    file.close();
+}
+
+void writeLikedMovieToFile(const Movie& movie) {
+    std::ofstream file(projectDir / "liked_movies.txt", std::ios::app); // Open in append mode
+    if (file.is_open()) {
+        file << movie.getId() << std::endl;
+    }
+    file.close();
+}
+
+std::unordered_set<Movie*> readWatchLaterMovies(const std::unordered_set<Movie*>& allMovies) {
+    std::unordered_set<Movie*> watchLaterMovies;
+    std::ifstream file(projectDir/"watch_later.txt");
+    std::string movieId;
+
+    if (!file.is_open()) {
+        std::cerr << "Failed to open watch_later.txt" << std::endl;
+        return watchLaterMovies; // Return empty if file can't be opened
+    }
+
+    while (getline(file, movieId)) {
+        for (auto* movie : allMovies) {
+            if (movie->getId() == movieId) {
+                watchLaterMovies.insert(movie);
+                break; // Found the movie, no need to continue the inner loop
+            }
+        }
+    }
+
+    file.close();
+    return watchLaterMovies;
+}
+
+std::unordered_set<std::string> readLikedTagMovies(const std::unordered_set<Movie*>& allMovies) {
+    std::unordered_set<std::string> likedMoviesTag;
+    std::ifstream file(projectDir/"liked_movies.txt");
+    std::string movieId;
+
+    if (!file.is_open()) {
+        std::cerr << "Failed to open liked_movies.txt" << std::endl;
+        return likedMoviesTag;
+    }
+
+    while (getline(file, movieId)) {
+        for (auto* movie : allMovies) {
+            if (movie->getId() == movieId) {
+                for(const auto& tag : movie->getTags()){
+                    likedMoviesTag.insert(tag);
+                }
+            }
+        }
+    }
+
+    file.close();
+    return likedMoviesTag;
+}
+
+
+std::unordered_set<Movie*> findSimilarMovies(const std::unordered_set<std::string>& likedMoviesTag, TrieNode& TrieTag) {
+    std::unordered_set<Movie*> recommendations;
+    std::vector<std::string> likedT(likedMoviesTag.begin(), likedMoviesTag.end());
+    for(auto tag : likedMoviesTag){
+        int i = 0;
+        auto m = TrieTag.search_movies_by_tag(likedT);
+        for (auto it = m.begin(); it != m.end() && i < 5; ++it, ++i) {
+            recommendations.insert(it->first);
+        }
+    }
+    return recommendations;
+}
+
 void moviePage(Movie& movie){
-    std::cout<<"Titulo: "<<movie.getTitle()<<std::endl;
-    std::cout<<"Sinopsis: "<<movie.getSynopsis()<<std::endl;
-    std::cout<<"Tags: "<<movie.getTags()<<std::endl;
-    std::cout<<"1. Ver mas"<<std::endl;
-    std::cout<<"2. Volver"<<std::endl;
+    std::cout<<movie<<std::endl;
+    std::cout<<"1. Like"<<std::endl;
+    std::cout<<"2. Ver mas tarde"<<std::endl;
+    std::cout<<"3. Volver a la busqueda" << std::endl;
+    bool active = true;
+    while(active) {
+        int input;
+        std::cin >> input;
+        std::cin.ignore();
+        switch (input) {
+            case 1:
+                writeLikedMovieToFile(movie);
+                std::cout<<"Le has dado like!"<<std::endl;
+                break;
+            case 2:
+                writeWatchLaterMovieToFile(movie);
+                std::cout<<"Agregado a ver mas tarde!"<<std::endl;
+                break;
+            case 3:
+                active = false;
+                break;
+        }
+    }
+
+}
+
+
+void selectingMovies(SearchEngineBuilder searchEngineBuilder){
+    bool second = true;
+    while(second) {
+        std::vector<Movie*> movie_list = searchEngineBuilder.build()->get();
+        for(int i = 1; i <= 5;i++){
+            std::cout<<i<<". "<<movie_list[i-1]->getTitle()<<std::endl;
+        }
+        std::cout<<"6. Siguiente pagina"<<std::endl;
+        std::cout<<"7. Anterior pagina"<<std::endl;
+        std::cout<<"8. Volver"<<std::endl;
+        int input;
+        std::cin >> input;
+        std::cin.ignore();
+        switch (input) {
+            case 1:
+                moviePage(*movie_list[input-1]);
+                break;
+            case 2:
+                moviePage(*movie_list[input-1]);
+                break;
+            case 3:
+                moviePage(*movie_list[input-1]);
+                break;
+            case 4:
+                moviePage(*movie_list[input-1]);
+                break;
+            case 5:
+                moviePage(*movie_list[input-1]);
+                break;
+            case 6:{
+                searchEngineBuilder.NextPage();
+                break;
+            }
+            case 7: {
+                searchEngineBuilder.PreviousPage();
+                break;
+            }
+            case 8:
+                second = false;
+                break;
+        }
+    }
+}
+
+void Searching(SearchEngineBuilder searchEngineBuilder){
+    bool first = true;
+    while(first){
+        int input;
+        std::cout<<"1. Ingrese la busqueda"<<std::endl;
+        std::cout<<"2. Ingrese los tags"<<std::endl;
+        std::cout<<"3. Buscar"<<std::endl;
+        std::cout<<"4. Volver"<<std::endl;
+        std::cin >> input;
+        std::cin.ignore();
+        switch (input) {
+            case 1: {
+                std::string query;
+                std::getline(std::cin, query);
+                searchEngineBuilder.Query(query);
+                break;}
+            case 2:{
+                std::string tags;
+                std::getline(std::cin, tags);
+                searchEngineBuilder.Tags(tags);
+                break;
+            }
+            case 3:
+                std::cout<<"buscando"<<std::endl;
+                selectingMovies(searchEngineBuilder);
+                break;
+            case 4:
+                first = false;
+                break;
+        }
+    }
 
 }
 
 int main(){
-    fs::path projectDir = fs::absolute(fs::path(__FILE__).parent_path().parent_path());
-
     auto* TrieTitle = new TrieNode();
     auto* TrieSynopsis = new TrieNode();
     auto* TrieTags = new TrieNode();
+    SearchEngineBuilder searchEngineBuilder(TrieTitle, TrieSynopsis, TrieTags);
     std::unordered_set<Movie*> movies;
 
     std::ifstream database(projectDir/"datos.csv");
@@ -43,84 +220,47 @@ int main(){
             auto* new_movie = new Movie(id,title, synopsis, tags);
             movies.insert(new_movie);
             TrieSynopsis->insert_movies_synopsis(synopsis, new_movie);
-            TrieTitle->insert_movies_title(title, new_movie);
-            TrieTags->insert_movies_synopsis(tags, new_movie);
+            TrieTitle->insert_movies_important(title, new_movie);
+            TrieTags->insert_movies_important(tags, new_movie);
         }
     }
-
     bool active = true;
-    SearchEngineBuilder searchEngineBuilder(TrieTitle, TrieSynopsis, TrieTags);
     while(active){
         int input;
-        std::cout<<"1. Ingrese la busqueda"<<std::endl;
-        std::cout<<"2. Ingrese los tags"<<std::endl;
-        std::cout<<"3. Buscar"<<std::endl;
-        std::cin >> input;
-        std::cin.ignore();
-        switch (input) {
-            case 1: {
-                std::string query;
-                std::getline(std::cin, query);
-                searchEngineBuilder.Query(query);
-                break;}
-            case 2:{
-                std::string tags;
-                std::getline(std::cin, tags);
-                searchEngineBuilder.Tags(tags);
-                break;
-            }
-            case 3:
-                std::cout<<"buscando"<<std::endl;
-
-                active = false;
-                break;
-        }
-    }
-    active = true;
-    while(active) {
-        std::vector<Movie*> movie_list = searchEngineBuilder.build()->get();
-        for(int i = 1; i <= 5;i++){
-            std::cout<<i<<". "<<movie_list[i-1]->getTitle()<<std::endl;
-        }
-        std::cout<<"6. Siguiente pagina"<<std::endl;
-        std::cout<<"7. Anterior pagina"<<std::endl;
-        int input;
+        std::cout<<"1. Buscar"<<std::endl;
+        std::cout<<"2. Ver mas tarde"<<std::endl;
+        std::cout<<"3. Recomendadas"<<std::endl;
+        std::cout<<"4. Salir"<<std::endl;
         std::cin >> input;
         std::cin.ignore();
         switch (input) {
             case 1:
-                std::cout<<*movie_list[input-1]<<std::endl;
+                Searching(searchEngineBuilder);
                 break;
-            case 2:
-                std::cout<<*movie_list[input-1]<<std::endl;
+            case 2:{
+                std::unordered_set<Movie*> watchLaterMovies = readWatchLaterMovies(movies);
+                for (auto* movie : watchLaterMovies) {
+                    std::cout << movie->getTitle() << std::endl;
+                }
                 break;
-            case 3:
-                std::cout<<*movie_list[input-1]<<std::endl;
-
+            }
+            case 3:{
+                std::unordered_set<std::string> likedMoviesTag = readLikedTagMovies(movies);
+                std::unordered_set<Movie*> recommendations = findSimilarMovies(likedMoviesTag, *TrieTags);
+                for (auto* movie : recommendations) {
+                    std::cout << movie->getTitle() << std::endl;
+                }
                 break;
+            }
             case 4:
-                std::cout<<*movie_list[input-1]<<std::endl;
-                break;
-            case 5:
-                std::cout<<*movie_list[input-1]<<std::endl;
-                break;
-            case 6:{
-                searchEngineBuilder.NextPage();
-                break;
-            }
-            case 7: {
-                searchEngineBuilder.PreviousPage();
-                break;
-            }
-            case 8:
-                active = false;
+                active= false;
                 break;
         }
+
     }
     for (auto movie : movies) {
         delete movie;
     }
-
     delete TrieTitle;
     delete TrieSynopsis;
     delete TrieTags;
