@@ -6,7 +6,8 @@
 * Jose Francisco Paca Sotero
 * Badi Masud Rodriguez Ramirez
 
-El siguiente texto debe ser eliminar en su repositorio.
+## Project name:
+ChavezNet, "Seated for a good time!"
 
 ## Plataforma de Streaming
 El objetivo del proyecto final es implementar una plataforma de *streaming*. Un programa que administre la búsqueda y visualización de la sinopsis de películas. Para ello se debe implementar las siguientes operaciones:
@@ -27,7 +28,7 @@ El objetivo del proyecto final es implementar una plataforma de *streaming*. Un 
 ## Convenciones de escritura
 * Utilizamos snake_case para las variables.
 * Utilizamos cammelCase para las funciones y metodos de clases.
-* NUNCA hacemos uso de PascalCase.
+* NUNCA hacemos uso de PascalCase (Excepto para nombres de clases).
 
 ## Descripcion de directorios
 
@@ -36,7 +37,10 @@ El objetivo del proyecto final es implementar una plataforma de *streaming*. Un 
     * src\app\Movie -> Contains everything regarding movies and its associated components (included sub-entities)
     * src\app\SearchEngine -> Contains everything related to search modules, technologies and scripts.
     * src\app\TriePrefix -> Contains anything to the tree search model. Includes search modules, technologies and scripts.
-  * src\beta_modules -> Any script that stands as suggestion or experimentation goes here.
+  * src\interface -> Module contains all scripts that will be used for display of our project will be contained here.
+    * src\interface\Animation -> Contains all animation resources/scripts needed for display.
+    * src\interface\Drawer -> Module for the visual construct of the space for the menus.
+    * src\interface\Menu -> Contains all computational, backend components designed to present the project.
   * src\tools -> All classes and scripts dedicated to being complementary for the project go here.
 
 ## Conceptos Importantes
@@ -44,3 +48,15 @@ Para la busqueda de las peliculas, se utilizo un arbol de prefijos, Trie.
 ![image](https://github.com/user-attachments/assets/88db7d43-4819-4c89-b4d5-7ced8d95972d)
 
 Donde despues de formar las palabras, hay un nodo adicional donde se guarda la direccion a las peliculas a la cual la palabra esta relacionado. 
+
+## Bases computacionales:
+
+
+## Licencias:
+Este proyecto está licenciado bajo los términos de la licencia MIT. Ver el archivo LICENSE para más detalles.
+
+## Agradecimientos
+Queremos agradecer a nuestros profesores y compañeros de clase por su apoyo y orientación durante el desarrollo de este proyecto.
+
+## Link de video:
+Aqui pueden ver nuestros resutaldos! Sigan el siguiente link: https://www.youtube.com/watch?v=ElPp2qHMui8
