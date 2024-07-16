@@ -38,3 +38,7 @@ El objetivo del proyecto final es implementar una plataforma de *streaming*. Un 
     * src\app\TriePrefix -> Contains anything to the tree search model. Includes search modules, technologies and scripts.
   * src\beta_modules -> Any script that stands as suggestion or experimentation goes here.
   * src\tools -> All classes and scripts dedicated to being complementary for the project go here.
+
+## Conceptos Importantes
+Para la busqueda de las peliculas, se utilizo un arbol de prefijos, Trie. ![image](https://github.com/user-attachments/assets/88db7d43-4819-4c89-b4d5-7ced8d95972d)
+Donde despues de formar las palabras, hay un nodo adicional donde se guarda la direccion de las peliculas a cual tal palaabra esta relacionado. 
