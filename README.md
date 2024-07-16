@@ -1,10 +1,10 @@
 # Programación III: Proyecto Final (2024-1)
 
 ## Integrantes
-* Nombre y Apellidos
-* Nombre y Apellidos
-* Nombre y Apellidos
-* Nombre y Apellidos
+* Hector Nieto 
+* Jorge Melgarejo Castillo
+* Jose Francisco Paca Sotero
+* Badi Masud Rodriguez Ramirez
 
 El siguiente texto debe ser eliminar en su repositorio.
 
