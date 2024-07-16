@@ -43,4 +43,4 @@ El objetivo del proyecto final es implementar una plataforma de *streaming*. Un 
 Para la busqueda de las peliculas, se utilizo un arbol de prefijos, Trie. 
 ![image](https://github.com/user-attachments/assets/88db7d43-4819-4c89-b4d5-7ced8d95972d)
 
-Donde despues de formar las palabras, hay un nodo adicional donde se guarda la direccion de las peliculas a cual tal palaabra esta relacionado. 
+Donde despues de formar las palabras, hay un nodo adicional donde se guarda la direccion a las peliculas a la cual la palabra esta relacionado. 
