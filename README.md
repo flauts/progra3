@@ -59,4 +59,4 @@ Este proyecto está licenciado bajo los términos de la licencia MIT. Ver el arc
 Queremos agradecer a nuestros profesores y compañeros de clase por su apoyo y orientación durante el desarrollo de este proyecto.
 
 ## Link de video:
-Aqui pueden ver nuestros resutaldos! Sigan el siguiente link: https://www.youtube.com/watch?v=ElPp2qHMui8
+Aqui pueden ver nuestros resutaldos! Sigan el siguiente link: https://www.youtube.com/watch?v=lPpqHMui
